@@ -592,7 +592,7 @@ export function disableDemo() {
 
 export const DEMO_USER = {
   id: 'demo-user',
-  email: 'demo@runlabs42.com',
+  email: 'demo@example.com',
   app_metadata: { provider: 'demo', providers: ['demo'] },
   user_metadata: { full_name: 'Usuario Demo' },
   aud: 'authenticated',
@@ -601,7 +601,7 @@ export const DEMO_USER = {
 
 export const DEMO_PROFILE: UserProfile = {
   id: 'demo-user',
-  email: 'demo@runlabs42.com',
+  email: 'demo@example.com',
   fullName: 'Usuario Demo',
   avatarUrl: null,
   bio: 'Cuenta de demostración local.',

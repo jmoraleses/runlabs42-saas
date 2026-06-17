@@ -499,7 +499,7 @@ export default {
     "contact.message": "Message",
     "contact.message.enterpriseDefault":
       "We are interested in an Enterprise plan for our organization. We would like to know about custom limits, SSO, and support.",
-    "contact.hint": "Your message is sent to runlabs42@gmail.com.",
+    "contact.hint": "Your message is sent to our support team.",
     "contact.submit": "Send message",
     "contact.sending": "Sending…",
     "contact.success.title": "Message sent",

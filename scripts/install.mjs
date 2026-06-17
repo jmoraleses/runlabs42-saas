@@ -134,6 +134,7 @@ function buildEnvFile(vars) {
         'SUPABASE_ACCESS_TOKEN',
         'SUPABASE_ORG_SLUG',
         'SUPABASE_PROVISION_REGION',
+        'ADMIN_EMAILS',
       ],
     },
     {
@@ -445,9 +446,13 @@ async function main() {
   vars = await configureOptionalIntegrations(vars)
   vars = await configureOptionalOAuth(vars, mode)
 
+  if (mode === 'production') {
+    vars.ADMIN_EMAILS = await askSecret('ADMIN_EMAILS (separados por coma, acceso al panel admin)', true)
+  }
+
   if (mode === 'production' && (await askYesNo('¿Configurar email de contacto (Resend)?', false))) {
     vars.RESEND_API_KEY = await askSecret('RESEND_API_KEY (re_…)')
-    vars.CONTACT_TO_EMAIL = await ask('CONTACT_TO_EMAIL', 'runlabs42@gmail.com')
+    vars.CONTACT_TO_EMAIL = await ask('CONTACT_TO_EMAIL', 'you@your-domain.com')
   }
 
   writeFileSync(envPath, buildEnvFile(vars), 'utf8')

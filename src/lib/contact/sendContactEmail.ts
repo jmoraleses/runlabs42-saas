@@ -1,5 +1,3 @@
-const DEFAULT_TO = 'runlabs42@gmail.com'
-
 export type ContactEmailPayload = {
   name: string
   email: string
@@ -12,8 +10,14 @@ export type SendContactResult =
   | { ok: true }
   | { ok: false; reason: 'not_configured' | 'provider_error'; detail?: string }
 
-export function buildMailtoUrl(payload: ContactEmailPayload): string {
-  const to = process.env.CONTACT_TO_EMAIL ?? DEFAULT_TO
+function contactToEmail(): string | null {
+  const to = process.env.CONTACT_TO_EMAIL?.trim()
+  return to || null
+}
+
+export function buildMailtoUrl(payload: ContactEmailPayload): string | null {
+  const to = contactToEmail()
+  if (!to) return null
   const subject = encodeURIComponent(
     payload.topic === 'enterprise'
       ? `[Runlabs42 Enterprise] ${payload.name}`
@@ -36,11 +40,11 @@ export function buildMailtoUrl(payload: ContactEmailPayload): string {
 
 export async function sendContactEmail(payload: ContactEmailPayload): Promise<SendContactResult> {
   const apiKey = process.env.RESEND_API_KEY
-  if (!apiKey) {
+  const to = contactToEmail()
+  if (!apiKey || !to) {
     return { ok: false, reason: 'not_configured' }
   }
 
-  const to = process.env.CONTACT_TO_EMAIL ?? DEFAULT_TO
   const from =
     process.env.CONTACT_FROM_EMAIL ?? 'Runlabs42 <onboarding@resend.dev>'
 

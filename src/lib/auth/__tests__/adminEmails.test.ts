@@ -23,6 +23,11 @@ describe('adminEmails', () => {
     expect(isAdminEmail(DEMO_USER_EMAIL)).toBe(false)
   })
 
+  it('returns empty list in production without ADMIN_EMAILS', () => {
+    vi.stubEnv('NODE_ENV', 'production')
+    expect(getAdminEmails()).toEqual([])
+  })
+
   it('honors ADMIN_EMAILS env override', () => {
     vi.stubEnv('NODE_ENV', 'production')
     vi.stubEnv('ADMIN_EMAILS', 'custom@example.com')

@@ -5,17 +5,14 @@ import {
   isStitchSessionReady,
   launchStitchChrome,
   openStitchPage,
-  REQUIRED_STITCH_EMAIL,
   resolveChromeUserDataDir,
   resolveStitchStorageStatePath,
   stitchChromeProfileReady,
   stitchPlaywrightStorageExists,
 } from '@/lib/auto/stitch/stitchPlaywright.shared'
 
-const STITCH_ACCOUNT_EMAIL = REQUIRED_STITCH_EMAIL
-
 export async function getStitchAccountEmail(): Promise<string | null> {
-  return STITCH_ACCOUNT_EMAIL
+  return process.env.STITCH_ACCOUNT_EMAIL?.trim() || null
 }
 
 export async function isStitchConfigured(): Promise<boolean> {
@@ -61,12 +58,14 @@ export async function checkStitchConnection(): Promise<{
           accountEmail,
         }
       }
-      const emailDetected = bodyText.includes(STITCH_ACCOUNT_EMAIL)
+      const emailDetected = accountEmail ? bodyText.includes(accountEmail.toLowerCase()) : false
       return {
         ok: true,
         message: emailDetected
           ? `Chrome/Stitch listo (${resolveChromeUserDataDir()})`
-          : `Stitch accesible; confirma login con ${STITCH_ACCOUNT_EMAIL}`,
+          : accountEmail
+            ? `Stitch accesible; confirma login con ${accountEmail}`
+            : 'Stitch accesible; define STITCH_ACCOUNT_EMAIL para validar la cuenta',
         accountEmail,
       }
     } finally {

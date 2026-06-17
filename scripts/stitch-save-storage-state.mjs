@@ -5,7 +5,11 @@ import path from 'node:path'
 import { chromium } from 'playwright'
 
 const stitchBaseUrl = process.env.STITCH_WEB_BASE_URL?.trim() || 'https://stitch.withgoogle.com'
-const requiredEmail = (process.env.STITCH_ACCOUNT_EMAIL?.trim() || 'runlabs42@gmail.com').toLowerCase()
+const requiredEmail = process.env.STITCH_ACCOUNT_EMAIL?.trim()?.toLowerCase()
+if (!requiredEmail) {
+  console.error('Falta STITCH_ACCOUNT_EMAIL en .env.local')
+  process.exit(1)
+}
 const outputPath =
   process.env.STITCH_PLAYWRIGHT_STORAGE_STATE?.trim() ||
   path.join(process.cwd(), '.auth', 'stitch-storage-state.json')

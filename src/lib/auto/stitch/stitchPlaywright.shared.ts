@@ -5,8 +5,13 @@ import path from 'node:path'
 import type { Browser, BrowserContext, FrameLocator, Page } from 'playwright'
 
 export const DEFAULT_STITCH_WEB_BASE_URL = 'https://stitch.withgoogle.com'
-export const REQUIRED_STITCH_EMAIL =
-  (process.env.STITCH_ACCOUNT_EMAIL?.trim() || 'runlabs42@gmail.com').toLowerCase()
+export function resolveStitchAccountEmail(): string {
+  const email = process.env.STITCH_ACCOUNT_EMAIL?.trim().toLowerCase()
+  if (!email) {
+    throw new Error('Falta STITCH_ACCOUNT_EMAIL en .env.local para usar Stitch.')
+  }
+  return email
+}
 
 export function resolveStitchStorageStatePath(): string {
   const fromEnv = process.env.STITCH_PLAYWRIGHT_STORAGE_STATE?.trim()
@@ -46,10 +51,12 @@ export async function stitchChromeProfileReady(): Promise<boolean> {
 }
 
 export async function stitchPlaywrightStorageMatchesRequiredEmail(): Promise<boolean> {
+  const requiredEmail = process.env.STITCH_ACCOUNT_EMAIL?.trim().toLowerCase()
+  if (!requiredEmail) return false
   try {
     const p = resolveStitchStorageStatePath()
     const raw = (await fs.readFile(p, 'utf8')).toLowerCase()
-    return raw.includes(REQUIRED_STITCH_EMAIL)
+    return raw.includes(requiredEmail)
   } catch {
     return false
   }
@@ -187,8 +194,8 @@ export async function launchStitchBrowser(): Promise<{
 }> {
   if (!(await isStitchSessionReady())) {
     throw new Error(
-      `Falta sesión Stitch. Ejecuta: pnpm stitch:auth (cuenta ${REQUIRED_STITCH_EMAIL}). ` +
-        `Para usar tu Chrome habitual: cierra Chrome, luego pnpm stitch:chrome-cdp y STITCH_CHROME_CDP_URL=http://127.0.0.1:9222 pnpm stitch:auth`,
+      'Falta sesión Stitch. Ejecuta: pnpm stitch:auth (define STITCH_ACCOUNT_EMAIL en .env.local). ' +
+        'Para usar tu Chrome habitual: cierra Chrome, luego pnpm stitch:chrome-cdp y STITCH_CHROME_CDP_URL=http://127.0.0.1:9222 pnpm stitch:auth',
     )
   }
 

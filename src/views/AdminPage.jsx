@@ -77,7 +77,7 @@ const INITIAL_MAINTENANCE_CONFIG = {
   title: 'Estamos mejorando Runlabs42',
   message: 'La plataforma estará disponible en breve. Pedimos disculpas por las molestias causadas.',
   estimatedTime: '',
-  contactEmail: 'soporte@runlabs42.com',
+  contactEmail: '',
 }
 
 const INITIAL_SPEECH_DICTATION_CONFIG = {

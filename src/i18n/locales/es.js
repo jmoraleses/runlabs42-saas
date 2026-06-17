@@ -467,7 +467,7 @@ export default {
     "contact.message": "Mensaje",
     "contact.message.enterpriseDefault":
       "Nos interesa un plan Enterprise para nuestra organización. Queremos conocer límites a medida, SSO y soporte.",
-    "contact.hint": "El mensaje se envía a runlabs42@gmail.com.",
+    "contact.hint": "El mensaje se envía al equipo de soporte.",
     "contact.submit": "Enviar mensaje",
     "contact.sending": "Enviando…",
     "contact.success.title": "Mensaje enviado",

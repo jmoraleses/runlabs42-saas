@@ -50,7 +50,9 @@ function getStitchApiKey(): string {
   return key
 }
 
-const STITCH_ACCOUNT_EMAIL = process.env.STITCH_ACCOUNT_EMAIL?.trim() || 'runlabs42@gmail.com'
+export async function getStitchAccountEmail(): Promise<string | null> {
+  return process.env.STITCH_ACCOUNT_EMAIL?.trim() || null
+}
 
 async function getStitchAuthHeaders(): Promise<Record<string, string>> {
   const apiKey = getStitchApiKey()
@@ -59,10 +61,6 @@ async function getStitchAuthHeaders(): Promise<Record<string, string>> {
     Accept: 'application/json',
     'x-goog-api-key': apiKey,
   }
-}
-
-export async function getStitchAccountEmail(): Promise<string | null> {
-  return STITCH_ACCOUNT_EMAIL
 }
 
 export async function isStitchApiConfigured(): Promise<boolean> {
