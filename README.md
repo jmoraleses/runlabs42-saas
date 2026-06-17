@@ -28,6 +28,57 @@ Aplicación SaaS basada en Next.js con Supabase como backend de datos y autentic
 
 ![Canvas con múltiples pantallas generadas para un mismo proyecto](docs/screenshots/studio-screens.png)
 
+## Instalación rápida
+
+El proyecto incluye un **instalador interactivo** que configura todo lo necesario en local o producción.
+
+```bash
+git clone https://github.com/jmoraleses/runlabs42-saas.git
+cd runlabs42-saas
+./install.sh
+```
+
+También puedes usar:
+
+```bash
+pnpm setup
+# equivalente a: node scripts/install.mjs
+```
+
+### ¿Qué hace el instalador?
+
+1. Comprueba requisitos (Node 20+, pnpm, Docker en modo local).
+2. Ejecuta `pnpm install`.
+3. Te pregunta el entorno:
+   - **Local** — levanta Supabase en Docker, aplica migraciones y rellena claves automáticamente.
+   - **Producción** — pide URL y claves de tu proyecto Supabase en la nube.
+4. Guía la configuración de API keys y secretos:
+   - Supabase (`NEXT_PUBLIC_SUPABASE_URL`, anon key, service role)
+   - IA (modo demo, Vertex AI o Gemini API Key)
+   - Panel admin (`ADMIN_EMAILS`)
+   - Stripe, Resend, OAuth (GitHub/Figma/Vercel), Stitch, Vercel Blob (opcionales)
+5. Genera `.env.local` listo para usar.
+6. En local, puede arrancar `pnpm dev` al finalizar.
+
+### Requisitos previos
+
+| Modo | Necesitas |
+|------|-----------|
+| **Local** | Node.js 20+, pnpm, Docker Desktop, Supabase CLI |
+| **Producción** | Node.js 20+, pnpm, proyecto Supabase en la nube |
+
+Plantilla de referencia: `.env.local.example` (sin secretos reales).
+
+### Arranque manual (sin instalador)
+
+```bash
+pnpm install
+cp .env.local.example .env.local   # edita con tus claves
+pnpm dev
+```
+
+Servidor local: `http://localhost:3010`.
+
 ## Stack principal
 
 - Next.js 14
@@ -35,43 +86,17 @@ Aplicación SaaS basada en Next.js con Supabase como backend de datos y autentic
 - Supabase (Auth + Postgres + migraciones SQL)
 - Tailwind CSS
 
-## Requisitos
-
-- Node.js 20+
-- pnpm
-
-## Instalación y arranque
-
-### Instalador interactivo (recomendado)
-
-```bash
-./install.sh
-# o
-pnpm setup
-```
-
-El script pregunta si quieres **local** (Supabase en Docker) o **producción** (Supabase en la nube), instala dependencias, genera `.env.local` y opcionalmente arranca el servidor.
-
-### Manual
-
-```bash
-pnpm install
-pnpm dev
-```
-
-Servidor local por defecto: `http://localhost:3010`.
-
 ## Variables de entorno
 
 No se incluyen secretos en el repositorio. Usa como base:
 
 - `.env.local.example`
 
-Los archivos `.env*` reales están ignorados por git.
+Los archivos `.env*` reales están ignorados por git. Usa `./install.sh` para generarlos de forma guiada.
 
-## Supabase local con Docker
+## Supabase local (detalle)
 
-Este proyecto puede correr contra Supabase local usando contenedores Docker (a través de Supabase CLI).
+Este proyecto puede correr contra Supabase local usando contenedores Docker. El instalador (`./install.sh`) automatiza estos pasos; si prefieres hacerlo a mano:
 
 ### 1) Requisitos
 

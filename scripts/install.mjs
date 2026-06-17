@@ -176,11 +176,19 @@ function buildEnvFile(vars) {
         'VERCEL_INTEGRATION_CLIENT_ID',
         'VERCEL_INTEGRATION_CLIENT_SECRET',
         'VERCEL_INTEGRATION_SLUG',
+        'STITCH_API_KEY',
+        'STITCH_ACCOUNT_EMAIL',
       ],
     },
     {
       title: 'Otros',
-      keys: ['BLOB_READ_WRITE_TOKEN', 'USER_STORAGE_LIMIT_MB', 'NODE_ENV'],
+      keys: [
+        'BLOB_READ_WRITE_TOKEN',
+        'USER_STORAGE_LIMIT_MB',
+        'ANTHROPIC_API_KEY',
+        'DEEPSEEK_API_KEY',
+        'NODE_ENV',
+      ],
     },
   ]
 
@@ -309,7 +317,7 @@ async function setupProductionBase() {
   const anon = await askSecret('NEXT_PUBLIC_SUPABASE_ANON_KEY (anon/public)')
   const service = await askSecret('SUPABASE_SERVICE_ROLE_KEY (service_role)')
   const publishable = await askSecret('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY', true)
-  const appUrl = await ask('NEXT_PUBLIC_APP_URL', 'https://www.runlabs42.com')
+  const appUrl = await ask('NEXT_PUBLIC_APP_URL', 'https://tu-dominio.com')
 
   return {
     NEXT_PUBLIC_SUPABASE_URL: url.replace(/\/$/, ''),
@@ -364,12 +372,61 @@ async function configureAI(vars) {
   return vars
 }
 
-async function configureOptionalIntegrations(vars) {
-  if (!(await askYesNo('¿Configurar Stripe (pagos)?', false))) return vars
+async function configureOptionalIntegrations(vars, mode) {
+  if (!(await askYesNo('¿Configurar Stripe (pagos)?', mode === 'production'))) return vars
 
   vars.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = await askSecret('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY (pk_…)')
   vars.STRIPE_SECRET_KEY = await askSecret('STRIPE_SECRET_KEY (sk_…)')
   vars.STRIPE_WEBHOOK_SECRET = await askSecret('STRIPE_WEBHOOK_SECRET (whsec_…)', true)
+  if (mode === 'production') {
+    vars.STRIPE_PRICE_STARTER = await askSecret('STRIPE_PRICE_STARTER (price_…)', true)
+    vars.STRIPE_PRICE_PRO = await askSecret('STRIPE_PRICE_PRO (price_…)', true)
+    vars.STRIPE_PRICE_TEAM = await askSecret('STRIPE_PRICE_TEAM (price_…)', true)
+  }
+  return vars
+}
+
+async function configureAdminEmails(vars) {
+  vars.ADMIN_EMAILS = await askSecret(
+    'ADMIN_EMAILS (separados por coma, acceso al panel admin)',
+    true,
+  )
+  return vars
+}
+
+async function configureContact(vars) {
+  if (!(await askYesNo('¿Configurar formulario de contacto (Resend)?', false))) return vars
+  vars.RESEND_API_KEY = await askSecret('RESEND_API_KEY (re_…)')
+  vars.CONTACT_TO_EMAIL = await ask('CONTACT_TO_EMAIL', 'you@your-domain.com')
+  vars.CONTACT_FROM_EMAIL = await ask(
+    'CONTACT_FROM_EMAIL',
+    'Tu App <onboarding@resend.dev>',
+  )
+  return vars
+}
+
+async function configureStitch(vars) {
+  if (!(await askYesNo('¿Configurar integración Stitch (Google)?', false))) return vars
+  vars.STITCH_API_KEY = await askSecret('STITCH_API_KEY')
+  vars.STITCH_ACCOUNT_EMAIL = await askSecret('STITCH_ACCOUNT_EMAIL (cuenta Google)', true)
+  return vars
+}
+
+async function configureBlob(vars) {
+  if (!(await askYesNo('¿Configurar Vercel Blob (archivos de proyecto)?', false))) return vars
+  vars.BLOB_READ_WRITE_TOKEN = await askSecret('BLOB_READ_WRITE_TOKEN')
+  vars.USER_STORAGE_LIMIT_MB = await ask('USER_STORAGE_LIMIT_MB', '100')
+  return vars
+}
+
+async function configureSupabaseProvision(vars, mode) {
+  if (mode !== 'production') return vars
+  if (!(await askYesNo('¿Provisionar proyectos Supabase por usuario (Management API)?', false))) {
+    return vars
+  }
+  vars.SUPABASE_ACCESS_TOKEN = await askSecret('SUPABASE_ACCESS_TOKEN')
+  vars.SUPABASE_ORG_SLUG = await askSecret('SUPABASE_ORG_SLUG')
+  vars.SUPABASE_PROVISION_REGION = await ask('SUPABASE_PROVISION_REGION', 'eu-west-1')
   return vars
 }
 
@@ -443,17 +500,13 @@ async function main() {
   }
 
   vars = await configureAI(vars)
-  vars = await configureOptionalIntegrations(vars)
+  vars = await configureAdminEmails(vars)
+  vars = await configureOptionalIntegrations(vars, mode)
   vars = await configureOptionalOAuth(vars, mode)
-
-  if (mode === 'production') {
-    vars.ADMIN_EMAILS = await askSecret('ADMIN_EMAILS (separados por coma, acceso al panel admin)', true)
-  }
-
-  if (mode === 'production' && (await askYesNo('¿Configurar email de contacto (Resend)?', false))) {
-    vars.RESEND_API_KEY = await askSecret('RESEND_API_KEY (re_…)')
-    vars.CONTACT_TO_EMAIL = await ask('CONTACT_TO_EMAIL', 'you@your-domain.com')
-  }
+  vars = await configureContact(vars)
+  vars = await configureStitch(vars)
+  vars = await configureBlob(vars)
+  vars = await configureSupabaseProvision(vars, mode)
 
   writeFileSync(envPath, buildEnvFile(vars), 'utf8')
   log(`\n✓ Archivo creado: ${envPath}`)
@@ -461,9 +514,19 @@ async function main() {
   if (mode === 'local') {
     log('\nSupabase Studio: http://127.0.0.1:54323')
     log('API local:       http://127.0.0.1:54321')
+    log('App local:       http://localhost:3010')
+  } else {
+    log('\nSiguiente paso en producción:')
+    log('  1. Sube las variables de .env.local a Vercel (Settings → Environment Variables)')
+    log('  2. Ejecuta: pnpm build && pnpm start  (o despliega con Vercel)')
   }
 
-  const startNow = await askYesNo('¿Arrancar el servidor de desarrollo ahora (`pnpm dev`)?', true)
+  log('\nComprobaciones útiles:')
+  log('  pnpm run check:vertex')
+  log('  curl http://localhost:3010/api/health')
+
+  const startNow =
+    mode === 'local' && (await askYesNo('¿Arrancar el servidor de desarrollo ahora (`pnpm dev`)?', true))
   if (startNow) {
     log('\nArrancando en http://localhost:3010 …\n')
     run('pnpm', ['dev'])

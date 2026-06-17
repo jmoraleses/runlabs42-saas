@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "setup": "node scripts/install.mjs",
+    "install:app": "node scripts/install.mjs",
     "copy-monaco": "node scripts/copy-monaco.mjs",
     "predev": "node scripts/copy-monaco.mjs && node scripts/ensure-dev-next.mjs",
     "dev": "NODE_OPTIONS=\"${NODE_OPTIONS:-} --disable-warning=DEP0169\" next dev -p 3010",
