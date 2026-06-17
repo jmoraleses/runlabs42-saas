@@ -1,0 +1,8 @@
+# Runlabs42 — Supabase CLI (npx supabase link --project-ref uqawltpguhjnkioqeqsh)
+project_id = "uqawltpguhjnkioqeqsh"
+
+[api]
+enabled = true
+
+[db]
+major_version = 17

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>runlabs42 — Build websites from your browser. No terminal. No installs.</title>
+    <meta name="description" content="runlabs42 turns plain-language prompts into production-grade websites. 100% in-browser — no terminal, no CLI, no app to install. Multi-model, transparent pricing, P2P GitHub marketplace." />
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#0a0a0c" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="src/styles.css" />
+
+    <!-- Pre-flight theme to avoid flash -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("sk.theme");
+          var t = stored === "dark" || stored === "light"
+            ? stored
+            : (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+          document.documentElement.setAttribute("data-theme", t);
+          var stLang = localStorage.getItem("sk.lang");
+          if (!stLang) {
+            var n = (navigator.language || "en").slice(0, 2).toLowerCase();
+            var sup = ["en", "es", "fr", "de", "nl", "it"];
+            if (sup.indexOf(n) >= 0) stLang = n;
+          }
+          if (stLang) document.documentElement.setAttribute("lang", stLang);
+        } catch (e) {}
+      })();
+    </script>
+
+    <style>
+      html, body { background: var(--bg); }
+      #root { min-height: 100vh; }
+      /* Layout for letterboxed full-bleed */
+      @media (max-width: 1000px) {
+        .container { padding: 0 16px !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- i18n dictionary (plain JS) -->
+    <script src="src/i18n.js"></script>
+
+    <!-- React + Babel -->
+    <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+    <!-- App scripts -->
+    <script type="text/babel" data-presets="react" src="src/shell.jsx"></script>
+    <script type="text/babel" data-presets="react" src="src/pages-landing.jsx"></script>
+    <script type="text/babel" data-presets="react" src="src/pages-pricing.jsx"></script>
+    <script type="text/babel" data-presets="react" src="src/pages-auth.jsx"></script>
+    <script type="text/babel" data-presets="react" src="src/pages-dashboard.jsx"></script>
+    <script type="text/babel" data-presets="react" src="src/pages-editor.jsx"></script>
+    <script type="text/babel" data-presets="react" src="src/pages-marketplace.jsx"></script>
+    <script type="text/babel" data-presets="react" src="src/pages-settings.jsx"></script>
+    <script type="text/babel" data-presets="react" src="src/app.jsx"></script>
+  </body>
+</html>

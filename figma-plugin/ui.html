@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        font: 12px/1.4 Inter, system-ui, sans-serif;
+        margin: 12px;
+      }
+      label {
+        display: block;
+        margin-bottom: 4px;
+        font-weight: 600;
+      }
+      input,
+      textarea {
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 8px;
+        padding: 6px 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+      button {
+        width: 100%;
+        padding: 8px;
+        border: none;
+        border-radius: 6px;
+        background: #111;
+        color: #fff;
+        cursor: pointer;
+      }
+      #status {
+        margin-top: 8px;
+        color: #444;
+        min-height: 1.2em;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="apiBase">URL de la API</label>
+    <input id="apiBase" placeholder="https://tu-app.vercel.app" />
+    <label for="projectId">Project ID</label>
+    <input id="projectId" placeholder="uuid del proyecto" />
+    <label for="exportId">Export ID</label>
+    <input id="exportId" placeholder="fexp-..." />
+    <label for="token">Token de exportación</label>
+    <textarea id="token" rows="3" placeholder="token firmado"></textarea>
+    <button id="import">Importar diseño</button>
+    <p id="status"></p>
+    <script>
+      const status = document.getElementById('status')
+      document.getElementById('import').onclick = () => {
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: 'import',
+              apiBase: document.getElementById('apiBase').value.trim(),
+              projectId: document.getElementById('projectId').value.trim(),
+              exportId: document.getElementById('exportId').value.trim(),
+              token: document.getElementById('token').value.trim(),
+            },
+          },
+          '*',
+        )
+      }
+      onmessage = (ev) => {
+        const msg = ev.data.pluginMessage
+        if (msg?.type === 'status') status.textContent = msg.text
+      }
+    </script>
+  </body>
+</html>

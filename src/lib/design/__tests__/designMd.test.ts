@@ -4,7 +4,6 @@ import {
   designMdCssRootVariableHints,
   designMdHtmlGuidanceBlocks,
   designMdIsRichEnough,
-  alignDesignMdColorsToBrief,
   designMdSystemInstruction,
   envelopeFromDesignMd,
   injectDesignMdThemeIntoHtml,
@@ -176,43 +175,6 @@ colors:
     const joined = blocks.join('\n')
     expect(joined).toContain('tailwind')
     expect(joined).toContain('cdn.tailwindcss.com')
-  })
-
-  it('alignDesignMdColorsToBrief reemplaza morado SaaS por paleta del brief', () => {
-    const brief: DesignBrief = {
-      prompt: 'Ferretería La Casa del Constructor — herramientas y materiales',
-      siteType: 'ecommerce',
-    }
-    const genericPurple = `---
-name: SaaS Purple
-colors:
-  primary: '#7c3aed'
-  secondary: '#ddd6fe'
-  surface: '#f5f3ff'
-  background: '#f5f3ff'
-  on-surface: '#1e1b4b'
-typography:
-  headline-lg:
-    fontFamily: Inter
-    fontSize: 32px
-    fontWeight: '700'
-    lineHeight: 40px
----
-
-## Brand & Style
-
-Generic.
-
-## Colors
-
-Purple everywhere.
-`
-    const aligned = alignDesignMdColorsToBrief(genericPurple, brief)
-    expect(aligned).not.toContain("'#7c3aed'")
-    expect(aligned).not.toContain('#f5f3ff')
-    expect(aligned).toMatch(/primary: '#ea[0-9a-f]{4}'/)
-    const fm = parseYamlFrontmatter(aligned)
-    expect(fm?.colors && typeof fm.colors === 'object').toBe(true)
   })
 
   it('designMdSystemInstruction no fija paleta ni tipografía de plantilla', () => {

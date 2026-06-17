@@ -34,6 +34,16 @@ const config = {
         protocol: 'https',
         hostname: '**.supabase.co',
       },
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
+        port: '54321',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '54321',
+      },
     ],
   },
 
@@ -69,31 +79,7 @@ const config = {
         {
           key: 'Content-Security-Policy',
           value:
-            "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com https://*.vercel-insights.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://cdn.tailwindcss.com; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.stripe.com https://*.sentry.io https://vitals.vercel-insights.com; frame-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'",
-        },
-      ],
-    },
-    {
-      source: '/portal',
-      headers: [
-        { key: 'X-Content-Type-Options', value: 'nosniff' },
-        { key: 'X-Frame-Options', value: 'ALLOWALL' },
-        {
-          key: 'Content-Security-Policy',
-          value:
-            "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-ancestors 'self' http://localhost:8099 http://127.0.0.1:8099; base-uri 'self'; form-action 'self'",
-        },
-      ],
-    },
-    {
-      source: '/portal/:path*',
-      headers: [
-        { key: 'X-Content-Type-Options', value: 'nosniff' },
-        { key: 'X-Frame-Options', value: 'ALLOWALL' },
-        {
-          key: 'Content-Security-Policy',
-          value:
-            "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-ancestors 'self' http://localhost:8099 http://127.0.0.1:8099; base-uri 'self'; form-action 'self'",
+            "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com https://*.vercel-insights.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://cdn.tailwindcss.com; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https: http://127.0.0.1:54321 http://localhost:54321; connect-src 'self' https://*.supabase.co wss://*.supabase.co http://127.0.0.1:54321 ws://127.0.0.1:54321 http://localhost:54321 ws://localhost:54321 https://api.stripe.com https://*.sentry.io https://vitals.vercel-insights.com; frame-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'",
         },
       ],
     },

@@ -118,16 +118,6 @@ describe('layoutVarietyHints', () => {
     expect(hints).toContain('asymmetric-grid')
     expect(hints).toContain('Variabilidad')
   })
-
-  it('incluye hints de sector automotriz sin imagen', () => {
-    const hints = layoutVarietyHints(
-      '{}',
-      { prompt: 'Concesionario de coches eléctricos premium' },
-      { hasVisualReference: false },
-    )
-    expect(hints).toContain('automotriz')
-    expect(hints).toContain('full-bleed')
-  })
 })
 
 describe('validateLayoutPlanAgainstStitch', () => {

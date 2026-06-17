@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spec-design-orchestrator"
+version = "0.1.0"
+description = "Vertex Agent Engine — orquestador modular de diseño web"
+requires-python = ">=3.10"
+
+[tool.setuptools]
+py-modules = ["orchestrator_agent"]
+
+[tool.setuptools.package-dir]
+"" = "vertex_agent_pkg"

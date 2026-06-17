@@ -24,6 +24,7 @@ node_modules/
 
 # Supabase CLI (link local)
 supabase/.temp/
+supabase/.branches/
 
 # Misc
 .DS_Store
@@ -39,10 +40,11 @@ yarn-error.log*
 !.env.local.example
 !.env.example
 
-# Editor
+# Editor / agentes locales
 .kiro/
 .claude/
-.claude/worktrees/
+.cursor/
+.specify/
 .vscode/
 .idea/
 *.swp
@@ -62,10 +64,15 @@ Thumbs.db
 .env*.local
 .env*
 .pnpm-store
+!.env.local.example
+
+# npm lockfile (el proyecto usa pnpm)
+package-lock.json
 
 # Vertex Agent Engine (design orchestrator)
 agents/design-orchestrator/dist/
 agents/design-orchestrator/deploy_staging/
+agents/design-orchestrator/build/
 __pycache__/
 *.egg-info/
 
@@ -74,6 +81,7 @@ uploads/
 .auth/
 .tmp/
 .tmp-docker-config/
+tmp-stitch-dl/
 
 # Artefactos de build de templates (evitar commits accidentales)
 spec/template-stack-installers/**/.next/

@@ -208,10 +208,7 @@ export async function POST(request: Request) {
           chatSessionId,
         )
         if (serverHistory.length) chatHistory = serverHistory
-        memoryBlock = await buildMemoryContextBlock(auth.supabase, user.id, projectIdForChat, {
-          // En Studio evitamos arrastrar preferencias globales entre proyectos.
-          includeUserMemories: false,
-        })
+        memoryBlock = await buildMemoryContextBlock(auth.supabase, user.id, projectIdForChat)
       } catch {
         /* fallback al historial del cliente */
       }

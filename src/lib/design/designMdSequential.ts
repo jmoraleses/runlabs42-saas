@@ -5,8 +5,7 @@ import {
   visualReferenceColorRolesBlock,
 } from '@/lib/design/visualColorRoles'
 import { composeOrchestrationUserPrompt } from '@/lib/design/designBrief'
-import { promptDerivedDesignIdentityBlock } from '@/lib/design/briefDesignDerivation'
-import { alignDesignMdColorsToBrief } from '@/lib/design/designMd'
+import { briefPaletteGuidanceBlock } from '@/lib/design/briefDesignDerivation'
 import { m3PaletteFromBrief } from '@/lib/design/stitchDesignMdPalette'
 import {
   REQUIRED_DESIGN_MD_SECTIONS,
@@ -177,16 +176,12 @@ export function designMdStepSystemInstruction(
 
   const colorPriority = hasImages && (stepId === 'colors-surfaces' || stepId === 'colors-roles')
     ? `\nFIDELIDAD CROMÁTICA: la imagen adjunta es la fuente de verdad para los colores. Extrae los hex dominantes que ves en la captura (fondo, cards, CTAs, badges, texto). El brief describe la intención, pero los hex deben corresponder a lo visible en la imagen. Asegura que los 9 roles surface-* formen una rampa tonal con variación real (nunca todos #FFFFFF ni todos iguales).`
-    : !hasImages && (stepId === 'colors-surfaces' || stepId === 'colors-roles')
-      ? `\nSIN IMAGEN: deriva colores del sector/producto del brief y del bloque "Identidad visual obligatoria". PROHIBIDO primary azul #2563eb y superficies blancas genéricas salvo brief SaaS explícito.`
-      : ''
+    : ''
 
   const typographyPriority = hasImages && stepId === 'typography'
     ? `\nPRIORIDAD ABSOLUTA: la fuente que elijas DEBE coincidir con las formas tipográficas de la imagen — su clasificación (serif/sans/display), contraste de trazo y proporciones. El brief puede mencionar fuentes pero la imagen es la fuente de verdad visual.
 ANTI-DEFAULT: NO uses Playfair Display, Montserrat, Inter ni Roboto salvo que los trazos de la imagen los muestren claramente. Estas fuentes son defaults del sistema — el modelo DEBE analizar las formas reales (terminaciones, ancho de trazo, altura de x, proporciones) e identificar la familia correcta. Si la referencia muestra una serif de alto contraste con terminaciones finas → Cormorant Garamond, Libre Baskerville. Si tiene trazos uniformes y geométricos → DM Sans, Outfit. Si es condensada y bold → Oswald, Barlow Condensed. Mira antes de elegir.`
-    : !hasImages && stepId === 'typography'
-      ? `\nSIN IMAGEN: elige tipografías acordes al sector del brief (automotriz → display condensada; gastronomía → serif editorial; lujo → serif + sans minimal). NO uses Inter como default universal.`
-      : ''
+    : ''
 
   return `Eres diseñador de sistemas web (Google Stitch). Colaboras en spec/design.md **por pasos** (PASO design.md: ${stepId}).
 Responde ÚNICAMENTE el fragmento del paso actual. Sin fences, sin repetir pasos anteriores, sin JSON/HTML/layout.
@@ -441,8 +436,11 @@ function buildStepUserPrompt(
     ? designMdExcerpt(partial)
     : '(aún vacío — primer paso)'
 
-  // Con imagen: no inyectar paleta derivada del brief (anula colores de la captura).
-  const paletteBlock = hasImages ? '' : promptDerivedDesignIdentityBlock(brief)
+  // When the user provided a reference image, DON'T inject the brief-derived palette —
+  // it would override the image's actual colors. Let the model extract from the image.
+  const paletteBlock = hasImages
+    ? ''
+    : briefPaletteGuidanceBlock(brief, m3PaletteFromBrief(brief))
 
   const colorRoleSteps = new Set<DesignMdStepId>([
     'colors-surfaces',
@@ -599,15 +597,12 @@ export async function runMonolithicDesignMdBuild(
   send?.('phase', 'design-md')
 
   const hasImages = Boolean(images?.length)
-  const textOnlyIdentity = hasImages ? '' : promptDerivedDesignIdentityBlock(brief)
   const prompt = `${baseUserPrompt}
-
-${textOnlyIdentity}
 
 ## Entrega
 Responde con **un solo** bloque \`\`\`markdown spec/design.md\` con frontmatter YAML completo y todas las secciones obligatorias.
 Formato alineado con export Google Stitch (M3 colors, typography headline-xl/body-md, spacing margin-mobile/desktop).
-${hasImages ? 'Los hex del YAML deben extraerse de la imagen adjunta (muestra de color por rol M3).' : 'Sin imagen: los hex y tipografías DEBEN derivarse del brief y del bloque de identidad visual obligatoria — prohibido plantilla SaaS blanca + azul #2563eb.'}`
+${hasImages ? 'Los hex del YAML deben extraerse de la imagen adjunta (muestra de color por rol M3).' : ''}`
 
   const text = await callText(prompt, {
     systemInstruction: designMdSystemInstruction(hasImages),
@@ -617,13 +612,6 @@ ${hasImages ? 'Los hex del YAML deben extraerse de la imagen adjunta (muestra de
   })
 
   let resolved = resolveDesignMdFromModel(text, brief)
-  if (!hasImages) {
-    const aligned = alignDesignMdColorsToBrief(resolved.designMd, brief)
-    if (aligned !== resolved.designMd) {
-      resolved = resolveDesignMdFromModel(aligned, brief)
-      send?.('phase', 'design-md:brief-palette-align')
-    }
-  }
   if (resolved.source === 'brief-fallback' || !designMdIsRichEnough(resolved.designMd)) {
     if (!hasImages) {
       const fallbackMd = buildDesignMdFromBrief(brief)
@@ -638,17 +626,11 @@ ${hasImages ? 'Los hex del YAML deben extraerse de la imagen adjunta (muestra de
     }
   }
 
-  let designMdOut = resolved.designMd
-  if (!hasImages) {
-    designMdOut = alignDesignMdColorsToBrief(designMdOut, brief)
-  }
-  const snappedMd = snapDesignMdToVisualColorRoles(designMdOut, opts.visualProfile)
+  const snappedMd = snapDesignMdToVisualColorRoles(resolved.designMd, opts.visualProfile)
   const snapped =
-    snappedMd !== designMdOut
+    snappedMd !== resolved.designMd
       ? resolveDesignMdFromModel(snappedMd, brief, { skipBriefFallback: hasImages })
-      : designMdOut !== resolved.designMd
-        ? resolveDesignMdFromModel(designMdOut, brief, { skipBriefFallback: hasImages })
-        : resolved
+      : resolved
   await onStepComplete?.(snapped.designMd)
   return snapped
 }

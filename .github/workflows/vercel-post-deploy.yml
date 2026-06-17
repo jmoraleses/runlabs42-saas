@@ -1,0 +1,120 @@
+name: Vercel post-deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  assign-domain:
+    name: Assign domain & clean old deployments
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Vercel production deployment
+        id: wait
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          TEAM_ID: team_Qxvk8d9vfohEkXC61vqnEDRZ
+          PROJECT_ID: prj_klhXm2B289xcqdnGD663GFMR5l3g
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          echo "Waiting for deployment of $COMMIT_SHA..."
+          for i in $(seq 1 30); do
+            RESPONSE=$(curl -s \
+              "https://api.vercel.com/v6/deployments?projectId=$PROJECT_ID&teamId=$TEAM_ID&target=production&limit=5" \
+              -H "Authorization: Bearer $VERCEL_TOKEN")
+
+            DEPLOYMENT=$(echo "$RESPONSE" | python3 -c "
+          import sys, json
+          data = json.load(sys.stdin)
+          sha = '$COMMIT_SHA'
+          for d in data.get('deployments', []):
+            if d.get('meta', {}).get('githubCommitSha', '').startswith(sha[:12]):
+              print(d['uid'] + ' ' + d['readyState'])
+              break
+          ")
+
+            if [ -n "$DEPLOYMENT" ]; then
+              DEP_ID=$(echo "$DEPLOYMENT" | cut -d' ' -f1)
+              DEP_STATE=$(echo "$DEPLOYMENT" | cut -d' ' -f2)
+              echo "Found deployment $DEP_ID — state: $DEP_STATE"
+
+              if [ "$DEP_STATE" = "READY" ]; then
+                echo "deployment_id=$DEP_ID" >> $GITHUB_OUTPUT
+                echo "Deployment is READY."
+                break
+              elif [ "$DEP_STATE" = "ERROR" ] || [ "$DEP_STATE" = "CANCELED" ]; then
+                echo "Deployment failed with state: $DEP_STATE"
+                exit 1
+              fi
+            fi
+
+            echo "[$i/30] Not ready yet, waiting 10s..."
+            sleep 10
+          done
+
+          if [ -z "$DEP_ID" ] || [ "$DEP_STATE" != "READY" ]; then
+            echo "Timed out waiting for deployment"
+            exit 1
+          fi
+
+      - name: Assign custom domains
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          TEAM_ID: team_Qxvk8d9vfohEkXC61vqnEDRZ
+          DEP_ID: ${{ steps.wait.outputs.deployment_id }}
+        run: |
+          for DOMAIN in "www.runlabs42.com" "runlabs42.com"; do
+            RESULT=$(curl -s -X POST \
+              "https://api.vercel.com/v2/deployments/$DEP_ID/aliases?teamId=$TEAM_ID" \
+              -H "Authorization: Bearer $VERCEL_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d "{\"alias\": \"$DOMAIN\"}")
+            echo "$DOMAIN → $(echo $RESULT | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('alias', d.get('error',{}).get('message','?')))")"
+          done
+
+      - name: Delete all old deployments (keep only current)
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          TEAM_ID: team_Qxvk8d9vfohEkXC61vqnEDRZ
+          PROJECT_ID: prj_klhXm2B289xcqdnGD663GFMR5l3g
+          CURRENT_DEP_ID: ${{ steps.wait.outputs.deployment_id }}
+        run: |
+          # Paginar hasta obtener todos los deploys del proyecto
+          ALL_DEPS="[]"
+          NEXT=""
+          while true; do
+            URL="https://api.vercel.com/v6/deployments?projectId=$PROJECT_ID&teamId=$TEAM_ID&limit=100"
+            [ -n "$NEXT" ] && URL="$URL&until=$NEXT"
+            RESP=$(curl -s "$URL" -H "Authorization: Bearer $VERCEL_TOKEN")
+            BATCH=$(echo "$RESP" | python3 -c "import sys,json; d=json.load(sys.stdin); print(json.dumps(d.get('deployments',[])))")
+            COUNT=$(echo "$BATCH" | python3 -c "import sys,json; print(len(json.load(sys.stdin)))")
+            ALL_DEPS=$(echo "$ALL_DEPS $BATCH" | python3 -c "import sys,json; parts=sys.stdin.read().split(); print(json.dumps(sum([json.loads(p) for p in parts],[])))")
+            NEXT=$(echo "$RESP" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('pagination',{}).get('next',''))" 2>/dev/null)
+            [ -z "$NEXT" ] || [ "$COUNT" -lt 100 ] && break
+          done
+          DEPLOYMENTS=$(echo "{\"deployments\": $ALL_DEPS}")
+
+          echo "$DEPLOYMENTS" | python3 -c "
+          import sys, json, subprocess, os
+
+          data = json.load(sys.stdin)
+          # Borrar TODOS excepto el actual (cualquier estado)
+          deps = data.get('deployments', [])
+
+          token = os.environ['VERCEL_TOKEN']
+          team = os.environ['TEAM_ID']
+          current = os.environ['CURRENT_DEP_ID']
+
+          for d in deps:
+            uid = d['uid']
+            if uid == current:
+              print(f'Kept   {uid} (current production)')
+              continue
+            result = subprocess.run(
+              ['curl', '-s', '-X', 'DELETE',
+               f'https://api.vercel.com/v13/deployments/{uid}?teamId={team}',
+               '-H', f'Authorization: Bearer {token}'],
+              capture_output=True, text=True
+            )
+            print(f'Deleted {uid}: {result.stdout[:60]}')
+          "

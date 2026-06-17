@@ -182,25 +182,7 @@ export function inferDesignBriefFromPrompt(prompt: string): Partial<DesignBrief>
     inferred.siteType = 'landing'
   }
 
-  if (
-    /\b(coche|coches|auto|autos|automóvil|automovil|vehículo|vehiculo|automotriz|concesionario|motor|deportivo)\b/i.test(
-      lower,
-    )
-  ) {
-    inferred.brandTone = inferred.brandTone ?? 'automotriz premium cinematográfico'
-    inferred.siteType = inferred.siteType ?? 'ecommerce'
-  } else if (
-    /\b(ferreter[ií]a|ferreteria|hardware|herramienta|constructor|construcci[oó]n|bricolaje)\b/i.test(
-      lower,
-    )
-  ) {
-    inferred.brandTone = inferred.brandTone ?? 'práctico y robusto'
-    inferred.siteType = inferred.siteType ?? 'ecommerce'
-  } else if (/\b(restaurante|comida|gastronom|chef|menú|menu)\b/i.test(lower)) {
-    inferred.brandTone = inferred.brandTone ?? 'gastronómico cálido'
-  } else if (/\b(moda|fashion|boutique|lujo|luxury|joyería|joyeria)\b/i.test(lower)) {
-    inferred.brandTone = inferred.brandTone ?? 'editorial de lujo'
-  } else if (/\b(corporativ|profesional|enterprise|b2b)\b/i.test(lower)) {
+  if (/\b(corporativ|profesional|enterprise|b2b)\b/i.test(lower)) {
     inferred.brandTone = inferred.brandTone ?? 'corporativo sofisticado'
   } else if (/\b(rebelde|punk|cyberpunk|underground|raw)\b/i.test(lower)) {
     inferred.brandTone = inferred.brandTone ?? 'rebelde / vanguardista'

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Runlabs42 Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style data-purpose="custom-utilities">
+    .dot-grid {
+      background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+  </style>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-50 h-screen flex flex-col font-sans text-gray-800 overflow-hidden" data-sk-id="sk-auto-1">
+<header class="bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between shadow-sm z-10 relative" data-purpose="top-navigation" data-sk-id="sk-auto-2">
+<div class="flex items-center space-x-8" data-sk-id="sk-auto-3">
+<div class="flex items-baseline space-x-1" data-sk-id="sk-auto-4">
+<span class="text-xl font-bold tracking-tight" data-sk-id="sk-auto-5">Runlabs<span class="text-yellow-500" data-sk-id="sk-auto-6">42</span></span>
+<span class="text-[10px] font-semibold bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded uppercase tracking-wide" data-sk-id="sk-auto-7">beta</span>
+</div>
+<nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-600" data-sk-id="sk-auto-8">
+<a class="hover:text-gray-900 transition-colors" href="#" data-sk-id="sk-auto-9">Inicio</a>
+<a class="hover:text-gray-900 transition-colors" href="#" data-sk-id="sk-auto-10">Precios</a>
+<a class="hover:text-gray-900 transition-colors" href="#" data-sk-id="sk-auto-11">Marketplace</a>
+<a class="text-gray-900 font-semibold border-b-2 border-gray-900 pb-1" href="#" data-sk-id="sk-auto-12">Studio</a>
+<a class="hover:text-gray-900 transition-colors" href="#" data-sk-id="sk-auto-13">Mis proyectos</a>
+</nav>
+</div>
+<div class="flex items-center space-x-4" data-sk-id="sk-auto-14">
+<div class="flex items-center space-x-2 border border-gray-200 rounded-md px-2 py-1 text-sm bg-white cursor-pointer hover:bg-gray-50 transition-colors" data-sk-id="sk-auto-15">
+<i class="fas fa-globe text-gray-500 text-xs"></i>
+<span data-sk-id="sk-auto-16">ES</span>
+<i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+</div>
+<button aria-label="Toggle dark mode" class="text-gray-500 hover:text-gray-700 w-8 h-8 rounded-full flex items-center justify-center border border-gray-200 hover:bg-gray-50 transition-colors" data-sk-id="sk-auto-17">
+<i class="far fa-moon"></i>
+</button>
+<div class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-1 rounded-md transition-colors" data-sk-id="sk-auto-18">
+<div class="w-8 h-8 bg-indigo-500 text-white rounded-full flex items-center justify-center font-semibold text-sm" data-sk-id="sk-auto-19">
+          D
+        </div>
+<div class="hidden sm:block text-left text-sm leading-tight" data-sk-id="sk-auto-20">
+<div class="font-medium text-gray-900" data-sk-id="sk-auto-21">Demo</div>
+<div class="text-xs text-gray-500" data-sk-id="sk-auto-22">100 cr</div>
+</div>
+<i class="fas fa-chevron-down text-gray-400 text-xs ml-1"></i>
+</div>
+</div>
+</header>
+<div class="bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between text-sm shadow-sm z-10 relative" data-purpose="secondary-toolbar" data-sk-id="sk-auto-23">
+<div class="flex space-x-1 bg-gray-100/50 p-1 rounded-lg border border-gray-200" data-sk-id="sk-auto-24">
+<button class="px-4 py-1.5 bg-white shadow-sm rounded-md font-medium text-gray-900" data-sk-id="sk-auto-25">Diseño</button>
+<button class="px-4 py-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors" data-sk-id="sk-auto-26">Vista</button>
+<button class="px-4 py-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors" data-sk-id="sk-auto-27">Vista dividida</button>
+<button class="px-4 py-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors" data-sk-id="sk-auto-28">Código</button>
+</div>
+<div class="flex items-center space-x-4" data-sk-id="sk-auto-29">
+<button aria-label="Refresh" class="text-gray-500 hover:text-gray-700 w-8 h-8 rounded flex items-center justify-center border border-transparent hover:bg-gray-100 transition-colors" data-sk-id="sk-auto-30">
+<i class="fas fa-sync-alt text-xs"></i>
+</button>
+<div class="flex space-x-1 bg-gray-50 border border-gray-200 rounded-lg p-1" data-sk-id="sk-auto-31">
+<button aria-label="Desktop view" class="w-8 h-8 rounded bg-white shadow-sm flex items-center justify-center text-gray-800" data-sk-id="sk-auto-32">
+<i class="fas fa-desktop"></i>
+</button>
+<button aria-label="Tablet view" class="w-8 h-8 rounded hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors" data-sk-id="sk-auto-33">
+<i class="fas fa-tablet-alt"></i>
+</button>
+<button aria-label="Mobile view" class="w-8 h-8 rounded hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors" data-sk-id="sk-auto-34">
+<i class="fas fa-mobile-alt"></i>
+</button>
+</div>
+<div class="flex items-center border-l border-gray-300 pl-4 space-x-1" data-sk-id="sk-auto-35">
+<button aria-label="Undo" class="text-gray-400 hover:text-gray-600 w-8 h-8 rounded flex items-center justify-center hover:bg-gray-100 transition-colors" data-sk-id="sk-auto-36">
+<i class="fas fa-undo text-xs"></i>
+</button>
+<button aria-label="Redo" class="text-gray-400 hover:text-gray-600 w-8 h-8 rounded flex items-center justify-center hover:bg-gray-100 transition-colors" data-sk-id="sk-auto-37">
+<i class="fas fa-redo text-xs"></i>
+</button>
+</div>
+</div>
+<div class="flex items-center space-x-3" data-sk-id="sk-auto-38">
+<button class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-1.5 rounded-md font-medium transition-colors shadow-sm" data-sk-id="sk-auto-39">
+        Convertir a app
+      </button>
+<div class="flex items-center border border-gray-200 rounded-md bg-white shadow-sm divide-x divide-gray-200" data-sk-id="sk-auto-40">
+<button class="px-3 py-1.5 text-gray-700 hover:bg-gray-50 font-medium transition-colors flex items-center space-x-2" data-sk-id="sk-auto-41">
+<i class="far fa-save text-gray-500"></i>
+<span data-sk-id="sk-auto-42">Guardar</span>
+</button>
+<button class="px-3 py-1.5 text-gray-700 hover:bg-gray-50 font-medium transition-colors flex items-center space-x-2" data-sk-id="sk-auto-43">
+<i class="fas fa-download text-gray-500"></i>
+<span data-sk-id="sk-auto-44">Descargar</span>
+</button>
+<button class="px-3 py-1.5 text-gray-900 hover:bg-gray-50 font-medium transition-colors flex items-center space-x-2" data-sk-id="sk-auto-45">
+<i class="fas fa-rocket text-gray-500"></i>
+<span data-sk-id="sk-auto-46">Desplegar</span>
+</button>
+</div>
+</div>
+</div>
+<main class="flex-1 relative flex flex-col dot-grid bg-white" data-purpose="main-canvas" data-sk-id="sk-auto-47">
+<div class="absolute top-4 right-4 text-xs font-medium text-gray-400 select-none" data-sk-id="sk-auto-48">
+      0/0 pantallas para código
+    </div>
+<div class="absolute top-6 left-6 w-80 bg-white rounded-xl shadow-lg border border-gray-200 p-4 flex flex-col space-y-4" data-purpose="generation-panel" data-sk-id="sk-auto-49">
+<div class="flex bg-gray-100/50 p-1 rounded-lg border border-gray-200" data-sk-id="sk-auto-50">
+<button class="flex-1 py-1.5 bg-white shadow-sm rounded-md font-medium text-sm text-gray-900" data-sk-id="sk-auto-51">Generar</button>
+<button class="flex-1 py-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md text-sm font-medium transition-colors" data-sk-id="sk-auto-52">Modificar</button>
+</div>
+<div class="text-sm text-gray-600 leading-relaxed" data-sk-id="sk-auto-53">
+        Describe tu producto; el sistema generará el design system y las pantallas en el lienzo.
+      </div>
+<div class="text-xs text-blue-500 font-medium cursor-pointer hover:underline" data-sk-id="sk-auto-54">
+        Diseñando pantallas (0/0)
+      </div>
+<button class="w-full py-2 bg-gray-100 text-gray-400 rounded-md font-medium text-sm cursor-not-allowed border border-gray-200" data-sk-id="sk-auto-55">
+        Generar prototipo
+      </button>
+</div>
+<div class="flex-1 flex flex-col items-center justify-center text-center px-4 max-w-2xl mx-auto mt-[-10vh]" data-sk-id="sk-auto-56">
+<h2 class="text-xl font-medium text-gray-600 mb-2" data-sk-id="sk-auto-57">Empieza describiendo tu app en la barra inferior.</h2>
+<p class="text-sm text-gray-400" data-sk-id="sk-auto-58">Ej.: tienda de mascotas con catálogo, detalle de producto y blog.</p>
+</div>
+<div class="absolute bottom-8 left-0 w-full flex justify-center px-4 pointer-events-none" data-purpose="bottom-chat-area" data-sk-id="sk-auto-59">
+<div class="w-full max-w-4xl relative pointer-events-auto flex flex-col items-center" data-sk-id="sk-auto-60">
+<div class="absolute -top-10 bg-white border border-gray-200 shadow-sm rounded-full px-4 py-1.5 text-xs font-medium text-gray-600" data-sk-id="sk-auto-61">
+          Captura de Pantalla
+        </div>
+<div class="w-full bg-white rounded-full shadow-lg border border-gray-200 p-2 flex items-center space-x-2 transition-shadow focus-within:ring-2 focus-within:ring-blue-100 focus-within:border-blue-300" data-sk-id="sk-auto-62">
+<div class="flex items-center pl-2 space-x-3 text-gray-400 border-r border-gray-200 pr-3" data-sk-id="sk-auto-63"><button aria-label="Add" class="hover:text-gray-700 transition-colors rounded-full p-1 hover:bg-gray-100 flex items-center justify-center" data-sk-id="sk-auto-64">
+  <span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+<button aria-label="Mention" class="hover:text-gray-700 transition-colors rounded-full p-1 hover:bg-gray-100 flex items-center justify-center" data-sk-id="sk-auto-65">
+  <span class="material-symbols-outlined text-[20px]">alternate_email</span>
+</button>
+<button aria-label="Settings" class="hover:text-gray-700 transition-colors rounded-full p-1 hover:bg-gray-100 flex items-center justify-center" data-sk-id="sk-auto-66">
+  <span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<button aria-label="Magic" class="hover:text-amber-500 transition-colors rounded-full p-1 hover:bg-gray-100 text-amber-400 flex items-center justify-center" data-sk-id="sk-auto-67">
+  <span class="material-symbols-outlined text-[20px]">auto_fix_high</span>
+</button></div>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-gray-700 placeholder-gray-400 py-2 px-2" placeholder="¿Qué quieres cambiar o crear?" type="text" data-sk-id="sk-auto-68">
+<button aria-label="Send" class="w-10 h-10 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full flex items-center justify-center transition-colors shadow-sm ml-2 mr-1" data-sk-id="sk-auto-69">
+<i class="fas fa-arrow-up"></i>
+</button>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-gray-50 border-t border-gray-200 px-4 py-1 text-[10px] text-gray-500 flex justify-between items-center z-10" data-purpose="status-bar" data-sk-id="sk-auto-70">
+<div class="flex items-center space-x-4" data-sk-id="sk-auto-71">
+<span class="font-mono text-green-600 flex items-center" data-sk-id="sk-auto-72"><i class="fas fa-terminal mr-1"></i> Consola Δ</span>
+</div>
+</footer>
+</body>
+</html>

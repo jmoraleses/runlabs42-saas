@@ -30,7 +30,6 @@ export async function listStitchProjectsViaPlaywright(
     return rows.map((row) => ({
       projectId: row.projectId,
       title: row.title,
-      previewImageUrl: row.thumbnailDataUrl ?? row.thumbnailUrl ?? undefined,
       screenCount: null,
       screenCountStatus: 'unavailable' as const,
     }))

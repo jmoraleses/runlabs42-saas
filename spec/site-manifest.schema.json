@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SiteManifest",
+  "type": "object",
+  "required": [
+    "version",
+    "siteType",
+    "pages",
+    "forms",
+    "internalLinks",
+    "requiresDatabase",
+    "requiresAuth",
+    "motion",
+    "envRequired"
+  ],
+  "properties": {
+    "version": { "const": 1 },
+    "siteType": {
+      "enum": ["landing", "ecommerce", "portfolio", "dashboard", "blog", "saas"]
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "route", "htmlPath", "designHref"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "route": { "type": "string" },
+          "htmlPath": { "type": "string" },
+          "designHref": { "type": "string" }
+        }
+      }
+    },
+    "forms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "pageId", "intent", "fields"],
+        "properties": {
+          "id": { "type": "string" },
+          "pageId": { "type": "string" },
+          "intent": {
+            "enum": ["contact", "newsletter", "checkout", "generic"]
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "type"],
+              "properties": {
+                "name": { "type": "string" },
+                "type": { "type": "string" },
+                "required": { "type": "boolean" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "internalLinks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["fromPageId", "toPageId", "href"],
+        "properties": {
+          "fromPageId": { "type": "string" },
+          "toPageId": { "type": "string" },
+          "href": { "type": "string" }
+        }
+      }
+    },
+    "requiresDatabase": { "type": "boolean" },
+    "requiresAuth": { "type": "boolean" },
+    "motion": { "type": "boolean" },
+    "envRequired": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

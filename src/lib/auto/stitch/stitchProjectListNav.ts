@@ -14,8 +14,6 @@ import {
 export type StitchSidebarListRow = {
   title: string
   projectId: string | null
-  thumbnailUrl?: string | null
-  thumbnailDataUrl?: string | null
 }
 
 export async function ensureMisProyectosTab(page: Page): Promise<void> {
@@ -58,9 +56,14 @@ export async function collectStitchSidebarProjectRows(page: Page): Promise<Stitc
   const rawRows = await frame.locator('li[role="button"]').evaluateAll((els) =>
     els.map((el) => {
       const raw = (el.textContent || '').trim()
-      const anchor =
-        el.closest('a[href]') ?? el.querySelector('a[href]')
-      let href = anchor instanceof HTMLAnchorElement ? anchor.href : null
+      const hrefFromNode = (node: Element | null): string | null => {
+        if (!node) return null
+        const anchor =
+          (node.closest('a[href]') as HTMLAnchorElement | null) ??
+          (node.querySelector('a[href]') as HTMLAnchorElement | null)
+        return anchor?.href ?? null
+      }
+      let href = hrefFromNode(el)
       if (!href) {
         for (const attr of ['data-project-id', 'data-id', 'data-href', 'href']) {
           const value = el.getAttribute(attr)
@@ -71,31 +74,7 @@ export async function collectStitchSidebarProjectRows(page: Page): Promise<Stitc
         }
       }
       const match = (href || '').match(/\/projects?\/(\d{5,})/i)
-      const img = el.querySelector('img')
-      const thumbnailUrl =
-        img instanceof HTMLImageElement
-          ? (img.currentSrc || img.src || '').trim() || null
-          : null
-      let thumbnailDataUrl: string | null = null
-      if (img instanceof HTMLImageElement) {
-        try {
-          const w = Math.max(1, img.naturalWidth || img.width || 0)
-          const h = Math.max(1, img.naturalHeight || img.height || 0)
-          if (w > 0 && h > 0) {
-            const canvas = document.createElement('canvas')
-            canvas.width = Math.min(240, w)
-            canvas.height = Math.min(160, h)
-            const ctx = canvas.getContext('2d')
-            if (ctx) {
-              ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-              thumbnailDataUrl = canvas.toDataURL('image/jpeg', 0.72)
-            }
-          }
-        } catch {
-          thumbnailDataUrl = null
-        }
-      }
-      return { raw, projectId: match?.[1] ?? null, thumbnailUrl, thumbnailDataUrl }
+      return { raw, projectId: match?.[1] ?? null }
     }),
   )
 
@@ -106,12 +85,7 @@ export async function collectStitchSidebarProjectRows(page: Page): Promise<Stitc
     const title = parseStitchProjectListTitle(row.raw)
     if (!title || seenTitles.has(title)) continue
     seenTitles.add(title)
-    rows.push({
-      title,
-      projectId: row.projectId,
-      thumbnailUrl: row.thumbnailUrl ?? null,
-      thumbnailDataUrl: row.thumbnailDataUrl ?? null,
-    })
+    rows.push({ title, projectId: row.projectId })
   }
   return rows
 }
@@ -130,31 +104,9 @@ export async function openStitchProjectByListTitle(
   await safeStitchGoto(page, '/')
   await ensureMisProyectosTab(page)
   await scrollStitchProjectSidebar(page)
-  await page.waitForTimeout(2500)
 
   const frame = stitchAppFrame(page)
-  const listItems = frame.locator('li[role="button"]')
-  let listCount = 0
-  for (let i = 0; i < 24; i++) {
-    listCount = await listItems.count().catch(() => 0)
-    if (listCount > 0) break
-    await page.waitForTimeout(800)
-    if (i === 10) await scrollStitchProjectSidebar(page)
-  }
-  if (listCount === 0) return null
-
-  const needle = trimmed.toLowerCase()
-  const rawTitles = await listItems.evaluateAll((els) =>
-    els.map((el) => (el.textContent || '').replace(/\s+/g, ' ').trim()),
-  )
-  const matchedIndex = rawTitles.findIndex((raw) => {
-    const lower = raw.toLowerCase()
-    return lower.includes(needle) || needle.includes(lower.slice(0, Math.min(lower.length, needle.length + 8)))
-  })
-
-  const item =
-    matchedIndex >= 0 ? listItems.nth(matchedIndex) : listItems.filter({ hasText: trimmed }).first()
-
+  const item = frame.locator('li[role="button"]').filter({ hasText: trimmed }).first()
   if (!(await item.isVisible({ timeout: 12_000 }).catch(() => false))) return null
 
   await item.click({ timeout: 15_000 })

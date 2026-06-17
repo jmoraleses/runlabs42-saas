@@ -10,11 +10,7 @@ import {
 import { DESIGN_SPEC_MD, DESIGN_THEME_CSS_PATH } from '@/lib/design/types'
 
 export { DESIGN_THEME_CSS_PATH }
-import {
-  layoutStyleFromBrief,
-  shouldAlignDesignMdColorsToBrief,
-  typographyForBrief,
-} from '@/lib/design/briefDesignDerivation'
+import { layoutStyleFromBrief, typographyForBrief } from '@/lib/design/briefDesignDerivation'
 import { m3PaletteFromBrief } from '@/lib/design/stitchDesignMdPalette'
 import {
   isStitchParityEnabled,
@@ -98,8 +94,8 @@ export function designMdSystemInstruction(hasVisualReference = false): string {
     ? `
 0. **IMAGEN ADJUNTA = fuente de verdad de color y estilo.** Antes de escribir YAML, identifica en la captura: hex de fondos, texto, CTAs, acentos; familias tipográficas; densidad y tono. PROHIBIDO copiar paletas genéricas del sistema — los colores y tipografías DEBEN extraerse de la imagen.
 1. Frontmatter YAML completo entre --- con TODOS los tokens \`colors\` Material 3 (mismas claves que el esquema M3; valores hex SOLO de la imagen + brief).`
-    : `0. **BRIEF = fuente de verdad.** Deriva nombre de estilo, hex y tipografías del producto descrito (sector, colores nombrados, #hex en el texto, tono de marca). PROHIBIDO reutilizar paletas de ejemplo del sistema ni el cliché SaaS (fondo blanco + primary azul #2563eb + Inter) salvo que el brief pida explícitamente un producto B2B/SaaS corporativo.
-1. Frontmatter YAML completo entre --- con TODOS los tokens \`colors\` Material 3 (lista completa de claves M3; cada valor hex coherente con el brief y el tipo de negocio, sin plantilla fija).`
+    : `0. **BRIEF = fuente de verdad.** Deriva nombre de estilo, hex y tipografías del producto descrito (colores nombrados, #hex en el texto, tono de marca). PROHIBIDO reutilizar paletas de ejemplo del sistema.
+1. Frontmatter YAML completo entre --- con TODOS los tokens \`colors\` Material 3 (lista completa de claves M3; cada valor hex coherente con el brief, sin plantilla fija).`
 
   const styleName = 'Nombre del estilo (2-5 palabras, específico del producto en brief/imagen)'
 
@@ -495,57 +491,6 @@ export function envelopeFromDesignMd(markdown: string): OrchestrationTokenEnvelo
       },
     },
   }
-}
-
-/**
- * Sustituye el bloque `colors:` del frontmatter por la paleta M3 derivada del brief
- * cuando el modelo devolvió un morado/azul SaaS genérico sin relación con el producto.
- */
-export function alignDesignMdColorsToBrief(designMd: string, brief: DesignBrief): string {
-  const trimmed = designMd.trim()
-  const parts = trimmed.match(/^(---\r?\n)([\s\S]*?)(\r?\n---)(\r?\n[\s\S]*)$/)
-  if (!parts) return designMd
-
-  const envelope = envelopeFromDesignMd(trimmed)
-  const modelPrimary = envelope.tokens?.colors?.primary
-  if (!shouldAlignDesignMdColorsToBrief(modelPrimary, brief)) return designMd
-
-  const palette = m3PaletteFromBrief(brief)
-  const colorsYaml = Object.entries(palette)
-    .map(([k, v]) => `  ${k}: '${v}'`)
-    .join('\n')
-
-  let frontmatter = parts[2]!
-  if (/^colors:\r?\n/m.test(frontmatter)) {
-    frontmatter = frontmatter.replace(
-      /^colors:\r?\n[\s\S]*?(?=^(?:typography|rounded|spacing):)/m,
-      `colors:\n${colorsYaml}\n`,
-    )
-  } else {
-    frontmatter = `colors:\n${colorsYaml}\n${frontmatter}`
-  }
-
-  const colorsSection = extractDesignMdSection(trimmed, '## Colors')
-  const alignedColorsNarrative = [
-    '## Colors',
-    '',
-    `- **Primary (${palette.primary}):** CTAs, enlaces de acción y acentos de marca derivados del brief.`,
-    `- **Secondary / tertiary:** armonía M3 coherente con el producto — no reutilizar lavanda/morado SaaS genérico.`,
-    `- **Surface / background:** lienzo y cards con tinte sutil del color semilla (${palette.surface}).`,
-    'Usa los hex del frontmatter en Tailwind y en todos los botones.',
-  ].join('\n')
-
-  let body = parts[4] ?? ''
-  if (colorsSection) {
-    body = body.replace(colorsSection, alignedColorsNarrative)
-  } else if (body.includes('## Brand & Style')) {
-    body = body.replace(
-      /(## Brand & Style[\s\S]*?)(\n## Typography)/,
-      `$1\n\n${alignedColorsNarrative}$2`,
-    )
-  }
-
-  return `${parts[1]}${frontmatter}${parts[3]}${body}`
 }
 
 /** Plantilla Stitch completa (YAML M3 + secciones) cuando el modelo no devuelve markdown válido. */

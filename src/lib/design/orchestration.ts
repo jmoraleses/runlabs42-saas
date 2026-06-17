@@ -9,7 +9,6 @@ import { getDesignGenModelId } from '@/lib/ai/config.server'
 import { isDesignAgentStudioEnabled } from '@/lib/design/agentStudio/config.server'
 import { runDesignAgentOrchestration } from '@/lib/design/agentStudio/runOrchestration'
 import {
-  alignDesignMdColorsToBrief,
   buildStitchStyleDesignMd,
   designMdExcerpt,
   designMdIsRichEnough,
@@ -88,7 +87,6 @@ import {
   visualReferenceUserPromptBlock,
 } from '@/lib/design/visualReference'
 import { resolveOrchestrationDevice } from '@/lib/design/visualReferenceDevice'
-import { orchestrationTextOnlyIdentityBlocks } from '@/lib/design/briefDesignDerivation'
 import {
   type DesignBrief,
   composeOrchestrationUserPrompt,
@@ -725,130 +723,6 @@ type HtmlPhaseParams = {
   signal?: AbortSignal
 }
 
-type ThemePaletteDirection = {
-  primary?: string
-  secondary?: string
-  tertiary?: string
-  background?: string
-  surface?: string
-  text?: string
-  rationale?: string
-  styleName?: string
-  visualStyle?: string
-  typography?: {
-    heading?: string
-    body?: string
-    mood?: string
-  }
-  layoutDirection?: string
-  componentsDirection?: string
-  imageryDirection?: string
-}
-
-function parseThemePaletteDirection(text: string): ThemePaletteDirection | null {
-  const raw = text.trim()
-  if (!raw) return null
-  const fenced = raw.match(/```(?:json)?\s*([\s\S]*?)```/i)?.[1]
-  const candidate = (fenced ?? raw).trim()
-  const start = candidate.indexOf('{')
-  const end = candidate.lastIndexOf('}')
-  if (start < 0 || end <= start) return null
-  try {
-    const parsed = JSON.parse(candidate.slice(start, end + 1)) as Record<string, unknown>
-    const hex = (k: string) => {
-      const v = String(parsed[k] ?? '').trim()
-      return /^#[0-9a-fA-F]{6}$/.test(v) ? v.toLowerCase() : undefined
-    }
-    const palette: ThemePaletteDirection = {
-      primary: hex('primary'),
-      secondary: hex('secondary'),
-      tertiary: hex('tertiary'),
-      background: hex('background'),
-      surface: hex('surface'),
-      text: hex('text'),
-      rationale: String(parsed.rationale ?? '').trim() || undefined,
-      styleName: String(parsed.styleName ?? '').trim() || undefined,
-      visualStyle: String(parsed.visualStyle ?? '').trim() || undefined,
-      layoutDirection: String(parsed.layoutDirection ?? '').trim() || undefined,
-      componentsDirection: String(parsed.componentsDirection ?? '').trim() || undefined,
-      imageryDirection: String(parsed.imageryDirection ?? '').trim() || undefined,
-      typography:
-        parsed.typography && typeof parsed.typography === 'object'
-          ? {
-              heading:
-                String((parsed.typography as Record<string, unknown>).heading ?? '').trim() ||
-                undefined,
-              body:
-                String((parsed.typography as Record<string, unknown>).body ?? '').trim() ||
-                undefined,
-              mood:
-                String((parsed.typography as Record<string, unknown>).mood ?? '').trim() ||
-                undefined,
-            }
-          : undefined,
-    }
-    if (!palette.primary && !palette.secondary && !palette.tertiary) return null
-    return palette
-  } catch {
-    return null
-  }
-}
-
-async function runThemePaletteDirectionPhase(opts: {
-  brief: DesignBrief
-  modelId: string
-  send?: (type: string, data: string) => void
-  pushFiles: (batch: Array<{ path: string; content: string }>) => Promise<void>
-  signal?: AbortSignal
-}): Promise<ThemePaletteDirection | null> {
-  const { brief, modelId, send, pushFiles, signal } = opts
-  // Evita romper tests que mockean fases cerradas.
-  if (process.env.NODE_ENV === 'test') return null
-  throwIfAborted(signal)
-  send?.('phase', 'theme-palette-direction')
-  const text = await callOrchestrationText(
-    `Define una paleta elegante para una web según esta temática del usuario:
-
-${brief.prompt}`,
-    {
-      systemInstruction: `Eres director de color para UI web.
-Responde SOLO JSON válido:
-{
-  "styleName": "2-5 palabras",
-  "visualStyle": "dirección visual en 1 frase",
-  "primary": "#RRGGBB",
-  "secondary": "#RRGGBB",
-  "tertiary": "#RRGGBB",
-  "background": "#RRGGBB",
-  "surface": "#RRGGBB",
-  "text": "#RRGGBB",
-  "typography": {
-    "heading": "Google Font sugerida",
-    "body": "Google Font sugerida",
-    "mood": "tono tipográfico"
-  },
-  "layoutDirection": "estructura orientativa por secciones",
-  "componentsDirection": "estilo de botones/cards/inputs",
-  "imageryDirection": "dirección fotográfica/ilustración",
-  "rationale": "1 frase"
-}
-Reglas:
-- Paleta elegante y coherente entre sí.
-- Evita defaults genéricos SaaS (azul/morado típico) salvo que el prompt lo pida.
-- Contraste legible text/background.`,
-      modelId,
-      responseMimeType: 'application/json',
-      signal,
-    },
-  )
-  const palette = parseThemePaletteDirection(text)
-  if (!palette) return null
-  await pushFiles([
-    { path: 'spec/theme-palette-direction.json', content: JSON.stringify(palette, null, 2) },
-  ])
-  return palette
-}
-
 /** Planifica y genera assets Imagen antes del HTML (cuando el usuario activa el icono de imagen). */
 async function runOrchestrationAssetPhases(opts: {
   brief: DesignBrief
@@ -1009,16 +883,6 @@ async function runDesignMdPhase(opts: {
     envelope = mergeOrchestrationEnvelopes(envelope, envelopeFromModelJson(designMd))
   }
 
-  if (!images?.length) {
-    const aligned = alignDesignMdColorsToBrief(designMd, brief)
-    if (aligned !== designMd) {
-      designMd = aligned
-      envelope = envelopeFromDesignMd(designMd) ?? envelope
-      console.warn('[orchestration] design.md: paleta alineada al brief (modelo genérico corregido)')
-      send?.('phase', 'design-md:brief-palette-align')
-    }
-  }
-
   let tokensJson = envelopeToTokensJson(envelope)
   const interim = buildTokensOnlySpecFile(tokensJson, device, existingPrimaryPages)
   const themeCss = isStitchParityEnabled(modelId) ? null : designMdThemeCssFile(designMd)
@@ -1056,20 +920,8 @@ async function runDesignMdPhase(opts: {
     }
     tokensJson = envelopeToTokensJson(envelope)
   }
-
-  if (!images?.length) {
-    const aligned = alignDesignMdColorsToBrief(designMd, brief)
-    if (aligned !== designMd) {
-      designMd = aligned
-      envelope = envelopeFromDesignMd(designMd) ?? envelope
-      tokensJson = envelopeToTokensJson(envelope)
-      send?.('phase', 'design-md:brief-palette-align')
-    }
-  }
-
   const reviewedInterim = buildTokensOnlySpecFile(tokensJson, device, existingPrimaryPages)
   await pushFiles([
-    { path: DESIGN_SPEC_MD, content: designMd },
     { path: DESIGN_TOKENS_PATH, content: tokensJson },
     { path: reviewedInterim.path, content: reviewedInterim.content },
   ])
@@ -1299,7 +1151,6 @@ async function runOrchestrationLayoutAndContent(params: LayoutContentParams): Pr
     send?.('phase', 'layout-planning')
     const stitchLayoutHints = stitchLayoutParityHints(params.stitchRef?.referenceHtml)
     const layoutPromptBase = composeOrchestrationUserPrompt(brief, [
-      ...orchestrationTextOnlyIdentityBlocks(brief, hasVisualReference),
       ...(hasVisualReference ? [visualReferenceUserPromptBlock()] : []),
       ...(visualProfile ? [visualAuditPromptBlock(visualProfile)] : []),
       ...(params.stitchPromptBlocks ?? []),
@@ -1692,7 +1543,6 @@ async function runOrchestrationHtmlPhase(params: HtmlPhaseParams): Promise<
           }
         },
         extraPromptBlocks: [
-          ...orchestrationTextOnlyIdentityBlocks(brief, hasVisualReference),
           ...(images?.length ? [visualReferenceUserPromptBlock()] : []),
           ...(params.visualProfile
             ? [
@@ -2128,7 +1978,7 @@ async function runInProcessOrchestration(
   )
 
   const stitchRef = resolveStitchReferenceForOrchestration(brief.stitchProjectId)
-  let orchestrationImages = mergeOrchestrationImageParts(images, stitchRef)
+  const orchestrationImages = mergeOrchestrationImageParts(images, stitchRef)
   let orchestrationBrief =
     stitchRef?.referencePrompt?.trim()
       ? mergeDesignBrief(brief, {
@@ -2156,44 +2006,6 @@ async function runInProcessOrchestration(
   }
 
   const isolationBlocks = opts.replaceDesign ? [orchestrationFreshDesignIsolationBlock()] : []
-  const stylePrimerImages: VertexImagePart[] = []
-  let stylePrimerProfile: VisualBriefInference | null = null
-
-  // Sin captura del usuario: pedir explícitamente a la IA una paleta temática.
-  if (!orchestrationImages.length && !stitchRef) {
-    const themePalette = await runThemePaletteDirectionPhase({
-      brief: orchestrationBrief,
-      modelId: modelId ?? getDesignGenModelId(),
-      send,
-      pushFiles,
-      signal,
-    })
-    if (themePalette) {
-      const enforced = [
-        themePalette.styleName ? `Dirección de diseño: ${themePalette.styleName}.` : '',
-        themePalette.visualStyle ? `Estilo visual obligatorio: ${themePalette.visualStyle}` : '',
-        `Paleta temática obligatoria (usar en spec/design.md): primary ${themePalette.primary ?? 'N/A'}, secondary ${themePalette.secondary ?? 'N/A'}, tertiary ${themePalette.tertiary ?? 'N/A'}, background ${themePalette.background ?? 'N/A'}, surface ${themePalette.surface ?? 'N/A'}, text ${themePalette.text ?? 'N/A'}.`,
-        themePalette.typography?.heading || themePalette.typography?.body
-          ? `Tipografía orientativa: heading ${themePalette.typography?.heading ?? 'N/A'}, body ${themePalette.typography?.body ?? 'N/A'}${themePalette.typography?.mood ? ` (${themePalette.typography.mood})` : ''}.`
-          : '',
-        themePalette.layoutDirection
-          ? `Layout orientativo obligatorio: ${themePalette.layoutDirection}`
-          : '',
-        themePalette.componentsDirection
-          ? `Componentes (botones/cards/inputs): ${themePalette.componentsDirection}`
-          : '',
-        themePalette.imageryDirection
-          ? `Imaginería/fotografía: ${themePalette.imageryDirection}`
-          : '',
-        'No reutilices paletas de plantilla; prioriza esta dirección cromática.',
-        themePalette.rationale ? `Racional: ${themePalette.rationale}` : '',
-      ]
-        .filter(Boolean)
-        .join('\n')
-      orchestrationBrief = { ...orchestrationBrief, prompt: `${orchestrationBrief.prompt}\n\n${enforced}` }
-    }
-  }
-
   const hasVisualReference = orchestrationHasVisualReference(
     orchestrationImages,
     stitchRef,
@@ -2209,14 +2021,13 @@ async function runInProcessOrchestration(
     modelId: resolvedModelId,
     send,
   })
-  const effectiveVisualProfile = visualProfile ?? stylePrimerProfile
-  if (effectiveVisualProfile) {
-    orchestrationBrief = mergeVisualInferenceIntoBrief(orchestrationBrief, effectiveVisualProfile)
+  if (visualProfile) {
+    orchestrationBrief = mergeVisualInferenceIntoBrief(orchestrationBrief, visualProfile)
     send?.('phase', 'visual-audit-ready')
     await pushFiles([
       {
         path: 'spec/visual-audit.json',
-        content: JSON.stringify(effectiveVisualProfile, null, 2),
+        content: JSON.stringify(visualProfile, null, 2),
       },
     ])
   }
@@ -2224,15 +2035,14 @@ async function runInProcessOrchestration(
 
   device = resolveOrchestrationDevice({
     requestedDevice: device,
-    visualProfile: effectiveVisualProfile,
+    visualProfile,
     images: orchestrationImages,
   })
 
   const baseUserPrompt = composeOrchestrationUserPrompt(orchestrationBrief, [
     ...isolationBlocks,
     ...(hasVisualReference ? [visualReferenceUserPromptBlock()] : []),
-    ...(effectiveVisualProfile ? [visualAuditPromptBlock(effectiveVisualProfile)] : []),
-    ...orchestrationTextOnlyIdentityBlocks(orchestrationBrief, hasVisualReference),
+    ...(visualProfile ? [visualAuditPromptBlock(visualProfile)] : []),
   ])
 
   if (stitchRef && isStitchParityEnabled(resolvedModelId)) {
@@ -2244,8 +2054,8 @@ async function runInProcessOrchestration(
     baseUserPrompt,
     modelId: resolvedModelId,
     device,
-    images: stylePrimerImages.length ? stylePrimerImages : orchestrationImages,
-    visualProfile: effectiveVisualProfile,
+    images: orchestrationImages,
+    visualProfile,
     existingPrimaryPages,
     existing: opts.existing,
     forceNewPage: opts.forceNewPage,
@@ -2263,7 +2073,7 @@ async function runInProcessOrchestration(
     brief: orchestrationBrief,
     device,
     images: orchestrationImages,
-    visualProfile: effectiveVisualProfile,
+    visualProfile,
     stitchRef,
     modelId: resolvedModelId,
     tokensJson,

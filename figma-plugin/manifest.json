@@ -1,0 +1,11 @@
+{
+  "name": "Runlabs42 Design Import",
+  "id": "runlabs42-design-import",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "networkAccess": {
+    "allowedDomains": ["https://*", "http://localhost:*"]
+  }
+}

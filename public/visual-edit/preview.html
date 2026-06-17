@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Preview</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: radial-gradient(ellipse at 50% 0%, rgba(99, 102, 241, 0.08), transparent 60%), #0a0a0f;
+      color: #e4e4e7;
+      min-height: 100vh;
+      padding: 32px 24px;
+      display: flex;
+      justify-content: center;
+    }
+    .card {
+      background: #14141c;
+      border: 1px solid #6366f1;
+      border-radius: 12px;
+      padding: 22px;
+      width: 280px;
+      position: relative;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+    }
+    .badge {
+      position: absolute;
+      top: -10px;
+      left: 22px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      font-size: 10px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .title { font-size: 18px; font-weight: 600; }
+    .subtitle { font-size: 13px; color: #a1a1aa; margin-top: 2px; }
+    .price-row { display: flex; align-items: baseline; gap: 4px; margin-top: 18px; }
+    .price { font-size: 38px; font-weight: 600; letter-spacing: -0.03em; }
+    .period { color: #a1a1aa; font-size: 13px; }
+    .cta {
+      width: 100%;
+      margin-top: 18px;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .features { list-style: none; margin-top: 18px; display: flex; flex-direction: column; gap: 8px; }
+    .features li { font-size: 13px; color: #d4d4d8; display: flex; gap: 8px; }
+    .check { color: #6366f1; }
+  </style>
+</head>
+<body>
+  <article
+    class="card"
+    data-sk-id="pricing-card"
+    data-sk-file="src/App.tsx"
+    data-sk-line="26"
+    data-source-location="pricing-card"
+  >
+    <span
+      class="badge"
+      data-sk-id="pricing-badge"
+      data-sk-file="src/App.tsx"
+      data-sk-line="36"
+    >Most popular</span>
+    <h3
+      class="title"
+      data-sk-id="pricing-title"
+      data-sk-file="src/App.tsx"
+      data-sk-line="67"
+    >Pro</h3>
+    <p
+      class="subtitle"
+      data-sk-id="pricing-subtitle"
+      data-sk-file="src/App.tsx"
+      data-sk-line="68"
+    >For solo builders</p>
+    <div class="price-row" data-sk-id="pricing-price-row" data-sk-file="src/App.tsx" data-sk-line="69">
+      <span class="price" data-sk-id="pricing-price" data-sk-file="src/App.tsx" data-sk-line="70">$20</span>
+      <span class="period" data-sk-id="pricing-period" data-sk-file="src/App.tsx" data-sk-line="71">/mo</span>
+    </div>
+    <button
+      class="cta"
+      data-sk-id="pricing-cta"
+      data-sk-file="src/App.tsx"
+      data-sk-line="73"
+    >Start 14-day trial</button>
+    <ul class="features" data-sk-id="pricing-features" data-sk-file="src/App.tsx" data-sk-line="79">
+      <li data-sk-id="feature-1"><span class="check">✓</span> Unlimited projects</li>
+      <li data-sk-id="feature-2"><span class="check">✓</span> All Claude models</li>
+      <li data-sk-id="feature-3"><span class="check">✓</span> Publish 5 items</li>
+    </ul>
+  </article>
+  <script src="/visual-edit/bridge.js"></script>
+</body>
+</html>

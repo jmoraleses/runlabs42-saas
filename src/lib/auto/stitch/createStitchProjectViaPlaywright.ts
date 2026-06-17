@@ -2,6 +2,7 @@ import 'server-only'
 
 import type { Page } from 'playwright'
 import type { StitchDesignType } from '@/lib/auto/stitch/stitchDesignType'
+import { parseStitchDesignType } from '@/lib/auto/stitch/stitchDesignType'
 import { clampTopicMaxScreens, enrichTopicPromptForStitch } from '@/lib/auto/topicStitchPrompt'
 import {
   clickFirstVisible,
@@ -60,17 +61,6 @@ async function ensureStitchWorkspace(page: Page): Promise<void> {
   await page.waitForTimeout(2000)
 
   const frame = stitchAppFrame(page)
-  const openedProjectId = collectProjectIdsFromFrames(page)[0] ?? null
-
-  // Stitch a veces redirige a un proyecto ya abierto; forzamos volver al composer home.
-  if (openedProjectId) {
-    await clickFirstVisible(page, [
-      frame.getByRole('button', { name: /empieza por tu diseño|start your design/i }),
-      frame.getByRole('button', { name: /new project|new design|nuevo proyecto|crear/i }),
-    ])
-    await page.waitForTimeout(2500)
-  }
-
   const hasPrompt = await frame
     .locator('div[role="textbox"][contenteditable="true"]')
     .first()
@@ -100,11 +90,7 @@ export async function createStitchProjectViaPlaywright(
     maxScreens,
     designType,
   })
-  const combinedPrompt =
-    `Título del proyecto: ${projectTitle}\n` +
-    `Project title: ${projectTitle}\n\n` +
-    `${mainPrompt}\n\n` +
-    'Usa ese título para el proyecto y genera la primera pantalla en base al prompt.'
+  const combinedPrompt = `Project title: ${projectTitle}\n\n${mainPrompt}`
 
   const { browser, context, viaCdp } = await launchStitchBrowser()
   try {

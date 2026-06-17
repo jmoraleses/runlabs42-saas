@@ -1,0 +1,5 @@
+# Solo pnpm (npm ignora este archivo)
+auto-install-peers=true
+shamefully-hoist=false
+strict-peer-dependencies=false
+store-dir=.pnpm-store

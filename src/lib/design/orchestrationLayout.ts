@@ -1,5 +1,4 @@
 import type { DesignBrief, DesignSiteType } from '@/lib/design/designBrief'
-import { derivePromptDesignContext } from '@/lib/design/briefDesignDerivation'
 import { existingDesignPagesLayoutPromptBlock } from '@/lib/design/designExistingContext'
 import { visualReferenceLayoutHints } from '@/lib/design/visualReference'
 import {
@@ -116,10 +115,6 @@ export function layoutVarietyHints(
   }
   const picked = rotated.slice(0, 2)
   const siteHint = brief?.siteType ? SITE_TYPE_HINTS[brief.siteType] : ''
-  const industry = brief ? derivePromptDesignContext(brief) : null
-  const industryLayoutHint = industry
-    ? `Estructura coherente con **${industry.industry}**: ${industry.layoutDirection}`
-    : ''
 
   return [
     '## Variabilidad de layout (obligatorio)',
@@ -127,8 +122,6 @@ export function layoutVarietyHints(
     `Estilo visual declarado: ${layoutStyle || 'único según brief'}.`,
     `Prioriza estas composiciones (elige y combina): ${picked.join('; ')}.`,
     'No repitas la secuencia genérica navigation → hero → features → footer en todas las páginas.',
-    'PROHIBIDO clonar la misma estructura y colores en cada generación: adapta secciones al producto del brief.',
-    industryLayoutHint,
     siteHint,
   ]
     .filter(Boolean)

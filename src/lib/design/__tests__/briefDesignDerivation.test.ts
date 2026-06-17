@@ -1,10 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
-  derivePromptDesignContext,
   extractHexFromBrief,
-  promptDerivedDesignIdentityBlock,
   seedColorFromBrief,
-  shouldAlignDesignMdColorsToBrief,
   typographyForBrief,
 } from '@/lib/design/briefDesignDerivation'
 import { m3PaletteFromBrief } from '@/lib/design/stitchDesignMdPalette'
@@ -49,31 +46,5 @@ describe('briefDesignDerivation', () => {
     const palette = m3PaletteFromBrief(brief)
     expect(palette.primary).toMatch(/^#[0-9a-fA-F]{6}$/)
     expect(palette.surface).toMatch(/^#[0-9a-fA-F]{6}$/)
-  })
-
-  it('ferretería evita semilla morada y pide naranja industrial', () => {
-    const brief: DesignBrief = {
-      prompt: 'Ferretería La Casa del Constructor — tienda de herramientas y materiales',
-      siteType: 'ecommerce',
-    }
-    const ctx = derivePromptDesignContext(brief)
-    expect(ctx?.industry).toContain('ferretería')
-    expect(seedColorFromBrief(brief)).toBe('#ea580c')
-    expect(shouldAlignDesignMdColorsToBrief('#7c3aed', brief)).toBe(true)
-    expect(shouldAlignDesignMdColorsToBrief('#ea580c', brief)).toBe(false)
-  })
-
-  it('automotriz no usa semilla azul SaaS por defecto', () => {
-    const brief: DesignBrief = {
-      prompt: 'Web de concesionario de coches deportivos de lujo con reserva online',
-      siteType: 'ecommerce',
-    }
-    const ctx = derivePromptDesignContext(brief)
-    expect(ctx?.industry).toBe('automotriz')
-    expect(seedColorFromBrief(brief)).not.toBe('#2563eb')
-    expect(typographyForBrief(brief).heading).toBe('Bebas Neue')
-    const block = promptDerivedDesignIdentityBlock(brief)
-    expect(block).toContain('automotriz')
-    expect(block).toContain('PROHIBIDO')
   })
 })

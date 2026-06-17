@@ -1,0 +1,187 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Custom Properties for design tokens */
+:root {
+  /* Brand Colors */
+  --color-brand-50: #f0f4ff;
+  --color-brand-100: #e0e9ff;
+  --color-brand-200: #c1d3ff;
+  --color-brand-300: #a2bdff;
+  --color-brand-400: #8fa7ff;
+  --color-brand-500: #6b84ff;
+  --color-brand-600: #5568ff;
+  --color-brand-700: #3f4dff;
+  --color-brand-800: #2832ff;
+  --color-brand-900: #1a1cff;
+  --color-brand-950: #0f0f99;
+
+  /* Accent Colors */
+  --color-accent-50: #fdf3f8;
+  --color-accent-100: #fbe7f1;
+  --color-accent-200: #f7cfe3;
+  --color-accent-300: #f1a8cf;
+  --color-accent-400: #e87eb7;
+  --color-accent-500: #dc549f;
+  --color-accent-600: #c73b7f;
+  --color-accent-700: #a42a66;
+  --color-accent-800: #862254;
+  --color-accent-900: #6d1f48;
+  --color-accent-950: #420e29;
+
+  /* Surface Colors */
+  --color-surface-50: #f9f9fa;
+  --color-surface-100: #f3f3f5;
+  --color-surface-200: #ececf1;
+  --color-surface-300: #d9d9e3;
+  --color-surface-400: #bdbdc7;
+  --color-surface-500: #a0a0ab;
+  --color-surface-600: #858592;
+  --color-surface-700: #6b6b78;
+  --color-surface-800: #54545f;
+  --color-surface-900: #3d3d47;
+  --color-surface-950: #1a1a1f;
+
+  /* Dark Mode */
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --color-surface-50: #1a1a1f;
+  --color-surface-100: #27272d;
+  --color-surface-200: #3d3d47;
+  --color-surface-300: #54545f;
+  --color-surface-400: #6b6b78;
+  --color-surface-500: #858592;
+  --color-surface-600: #a0a0ab;
+  --color-surface-700: #bdbdc7;
+  --color-surface-800: #d9d9e3;
+  --color-surface-900: #ececf1;
+  --color-surface-950: #f9f9fa;
+}
+
+/* Base Styles */
+* {
+  @apply border-surface-200;
+}
+
+[data-theme='dark'] * {
+  @apply border-surface-800;
+}
+
+html {
+  @apply scroll-smooth;
+}
+
+body {
+  @apply bg-white text-surface-950 dark:bg-surface-950 dark:text-surface-50;
+}
+
+/* Typography */
+h1 {
+  @apply text-4xl font-bold;
+}
+
+h2 {
+  @apply text-3xl font-bold;
+}
+
+h3 {
+  @apply text-2xl font-semibold;
+}
+
+h4 {
+  @apply text-xl font-semibold;
+}
+
+h5 {
+  @apply text-lg font-semibold;
+}
+
+h6 {
+  @apply text-base font-semibold;
+}
+
+p {
+  @apply text-base leading-relaxed;
+}
+
+small {
+  @apply text-sm;
+}
+
+/* Form Styles */
+input,
+textarea,
+select {
+  @apply rounded-md border border-surface-300 bg-white px-3 py-2 text-sm placeholder-surface-500 transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-opacity-10 disabled:cursor-not-allowed disabled:bg-surface-100 disabled:text-surface-500 dark:border-surface-700 dark:bg-surface-900 dark:placeholder-surface-400 dark:focus:border-brand-500;
+}
+
+/* Button Styles */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-medium transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.btn-primary {
+  @apply bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800;
+}
+
+.btn-secondary {
+  @apply bg-surface-200 text-surface-900 hover:bg-surface-300 active:bg-surface-400 dark:bg-surface-700 dark:text-surface-50 dark:hover:bg-surface-600 dark:active:bg-surface-500;
+}
+
+.btn-ghost {
+  @apply text-surface-700 hover:bg-surface-100 active:bg-surface-200 dark:text-surface-300 dark:hover:bg-surface-800 dark:active:bg-surface-700;
+}
+
+.btn-accent {
+  @apply bg-accent-600 text-white hover:bg-accent-700 active:bg-accent-800;
+}
+
+/* Card Styles */
+.card {
+  @apply rounded-lg border border-surface-200 bg-white p-4 shadow-sm dark:border-surface-800 dark:bg-surface-900;
+}
+
+.surface {
+  @apply rounded-lg bg-surface-50 p-4 dark:bg-surface-900;
+}
+
+/* Loading & Animations */
+.skeleton {
+  @apply animate-pulse rounded-md bg-surface-200 dark:bg-surface-800;
+}
+
+.spinner {
+  @apply inline-block h-4 w-4 animate-spin rounded-full border-2 border-surface-300 border-t-brand-600;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-surface-100 dark:bg-surface-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-surface-300 hover:bg-surface-400 dark:bg-surface-700 dark:hover:bg-surface-600;
+}
+
+/* Focus Visible Ring */
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-brand-500;
+}
+
+/* Selection Color */
+::selection {
+  @apply bg-brand-200 text-surface-950 dark:bg-brand-700 dark:text-surface-50;
+}
+
+/* Smooth Transitions */
+* {
+  @apply transition-colors duration-200;
+}

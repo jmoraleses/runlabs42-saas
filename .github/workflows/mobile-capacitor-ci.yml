@@ -1,0 +1,13 @@
+# Fase 3: CI opcional para builds Capacitor (iOS requiere macOS runner).
+# Descomenta y configura secrets cuando tengas cuenta de CI.
+
+name: Mobile Capacitor (manual)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  placeholder:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Integrar npx cap sync + build Android en CI; job macos-latest para IPA."

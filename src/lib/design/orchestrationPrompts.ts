@@ -252,10 +252,9 @@ export function layoutOrchestratorSystemInstruction(
 3. section.type y composition deben nombrar zonas observadas (hero-media-overlay, bottom-nav, product-grid, etc.).
 4. Declara UNA sola page salvo que la captura muestre varias pantallas distintas. PROHIBIDO añadir Catálogo/Nosotros/Contacto si la imagen es una sola pantalla móvil o landing.`
     : `2. PROHIBIDO usar siempre "Header -> Hero -> Features" en la página principal.
-3. NO copies la secuencia de section types del ejemplo del schema; inventa tipos y composiciones nuevas según el **producto del brief** (automotriz ≠ restaurante ≠ SaaS).
+3. NO copies la secuencia de section types del ejemplo del schema; inventa tipos y composiciones nuevas.
 4. Si el estilo es "asymmetric-grid", propón secciones con pesos visuales desiguales.
-5. Si es "brutalist", usa bordes gruesos y tipografía gigante fuera de lugar.
-6. Si el prompt incluye bloque "Identidad visual obligatoria", respétalo en layoutStrategy y section.type/composition.`
+5. Si es "brutalist", usa bordes gruesos y tipografía gigante fuera de lugar.`
 
   return `Eres un arquitecto de interfaces web especializado en layouts${hasRef ? ' fieles a referencias visuales' : ' no convencionales'}.
 Tu misión es diseñar la ESTRUCTURA modular de una web basándote en su IDENTIDAD VISUAL.
