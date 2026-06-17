@@ -42,6 +42,7 @@ yarn-error.log*
 
 # Documentación local (no subir al repositorio)
 *.md
+!README.md
 
 # Carpetas ocultas locales (solo permitir configuración esencial del proyecto)
 .auth/
