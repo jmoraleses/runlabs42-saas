@@ -1,0 +1,85 @@
+{
+  "updatedAt": "2026-05-28T11:29:35.996Z",
+  "items": [
+    {
+      "id": "ephemeral-1",
+      "title": "Entrenamiento Personal Online y Nutrición Deportiva",
+      "prompt": "Diseña una tienda online para entrenadores personales y nutricionistas deportivos, ofreciendo planes personalizados y suplementos. Apunta a deportistas amateurs y profesionales, con un estilo visual dinámico y motivador.\n\n[Alcance Stitch: sitio web responsive (desktop y móvil), no app nativa; exactamente 8 pantallas de diseño coherentes entre sí (p. ej. inicio, catálogo o listado, detalle de producto, carrito o checkout, cuenta, contacto o FAQ, según el tipo de producto indicado arriba). No generes menos pantallas de las indicadas.]",
+      "platformIds": [
+        "wordpress"
+      ]
+    },
+    {
+      "id": "ephemeral-2",
+      "title": "Artesanía Sostenible y Decoración Ecológica",
+      "prompt": "Crea un marketplace que conecte artesanos de productos sostenibles con consumidores eco-conscientes. El estilo debe ser natural, orgánico y minimalista, para amantes de la decoración ética.\n\n[Alcance Stitch: sitio web responsive (desktop y móvil), no app nativa; exactamente 8 pantallas de diseño coherentes entre sí (p. ej. inicio, catálogo o listado, detalle de producto, carrito o checkout, cuenta, contacto o FAQ, según el tipo de producto indicado arriba). No generes menos pantallas de las indicadas.]",
+      "platformIds": [
+        "wordpress"
+      ]
+    },
+    {
+      "id": "ephemeral-3",
+      "title": "Asesoría Financiera para Jóvenes Emprendedores",
+      "prompt": "Desarrolla una web de servicios de asesoría financiera especializada en startups y jóvenes emprendedores. Busca un diseño moderno, limpio y profesional, que inspire confianza y conocimiento.\n\n[Alcance Stitch: sitio web responsive (desktop y móvil), no app nativa; exactamente 8 pantallas de diseño coherentes entre sí (p. ej. inicio, catálogo o listado, detalle de producto, carrito o checkout, cuenta, contacto o FAQ, según el tipo de producto indicado arriba). No generes menos pantallas de las indicadas.]",
+      "platformIds": [
+        "wordpress"
+      ]
+    },
+    {
+      "id": "ephemeral-4",
+      "title": "Plataforma de Cursos de Fotografía Creativa",
+      "prompt": "Implementa un SaaS educativo para fotógrafos que deseen mejorar su creatividad. El público son aficionados y profesionales, el estilo visual debe ser inspirador y de alta calidad.\n\n[Alcance Stitch: sitio web responsive (desktop y móvil), no app nativa; exactamente 8 pantallas de diseño coherentes entre sí (p. ej. inicio, catálogo o listado, detalle de producto, carrito o checkout, cuenta, contacto o FAQ, según el tipo de producto indicado arriba). No generes menos pantallas de las indicadas.]",
+      "platformIds": [
+        "wordpress"
+      ]
+    },
+    {
+      "id": "ephemeral-5",
+      "title": "Viajes de Aventura y Ecoturismo",
+      "prompt": "Diseña un blog de viajes enfocado en aventuras y ecoturismo, con guías, itinerarios y consejos. Dirigido a viajeros intrépidos y amantes de la naturaleza, con un estilo visual inmersivo y fotográfico.\n\n[Alcance Stitch: sitio web responsive (desktop y móvil), no app nativa; exactamente 8 pantallas de diseño coherentes entre sí (p. ej. inicio, catálogo o listado, detalle de producto, carrito o checkout, cuenta, contacto o FAQ, según el tipo de producto indicado arriba). No generes menos pantallas de las indicadas.]",
+      "platformIds": [
+        "wordpress"
+      ]
+    },
+    {
+      "id": "ephemeral-6",
+      "title": "Servicio de Suscripción de Libros Temáticos",
+      "prompt": "Crea una tienda online de suscripción mensual de libros, centrada en géneros específicos como ciencia ficción o misterio. El público son lectores ávidos, con un estilo visual acogedor y literario.\n\n[Alcance Stitch: sitio web responsive (desktop y móvil), no app nativa; exactamente 8 pantallas de diseño coherentes entre sí (p. ej. inicio, catálogo o listado, detalle de producto, carrito o checkout, cuenta, contacto o FAQ, según el tipo de producto indicado arriba). No generes menos pantallas de las indicadas.]",
+      "platformIds": [
+        "wordpress"
+      ]
+    },
+    {
+      "id": "ephemeral-7",
+      "title": "Consultoría de Marketing Digital para PYMES",
+      "prompt": "Desarrolla una web de servicios de consultoría de marketing digital, enfocada en pequeñas y medianas empresas. El estilo debe ser corporativo, claro y orientado a resultados.\n\n[Alcance Stitch: sitio web responsive (desktop y móvil), no app nativa; exactamente 8 pantallas de diseño coherentes entre sí (p. ej. inicio, catálogo o listado, detalle de producto, carrito o checkout, cuenta, contacto o FAQ, según el tipo de producto indicado arriba). No generes menos pantallas de las indicadas.]",
+      "platformIds": [
+        "wordpress"
+      ]
+    },
+    {
+      "id": "ephemeral-8",
+      "title": "Portfolio de Diseñadores Gráficos e Ilustradores",
+      "prompt": "Diseña un portfolio online para ilustradores y diseñadores gráficos. Dirigido a potenciales clientes (agencias, empresas), con un estilo visual limpio, moderno y centrado en las obras.\n\n[Alcance Stitch: sitio web responsive (desktop y móvil), no app nativa; exactamente 8 pantallas de diseño coherentes entre sí (p. ej. inicio, catálogo o listado, detalle de producto, carrito o checkout, cuenta, contacto o FAQ, según el tipo de producto indicado arriba). No generes menos pantallas de las indicadas.]",
+      "platformIds": [
+        "wordpress"
+      ]
+    },
+    {
+      "id": "ephemeral-9",
+      "title": "App de Reservas para Clases de Yoga y Pilates",
+      "prompt": "Crea una app de reservas para estudios de yoga y pilates. El público son estudiantes y dueños de estudios, con un estilo visual relajante, minimalista y fácil de usar.\n\n[Alcance Stitch: sitio web responsive (desktop y móvil), no app nativa; exactamente 8 pantallas de diseño coherentes entre sí (p. ej. inicio, catálogo o listado, detalle de producto, carrito o checkout, cuenta, contacto o FAQ, según el tipo de producto indicado arriba). No generes menos pantallas de las indicadas.]",
+      "platformIds": [
+        "wordpress"
+      ]
+    },
+    {
+      "id": "ephemeral-10",
+      "title": "Marketplace de Productos para Mascotas Premium",
+      "prompt": "Implementa un marketplace para la venta de productos premium y artesanales para mascotas. El público son dueños de mascotas que buscan calidad y exclusividad, con un estilo visual divertido y elegante.\n\n[Alcance Stitch: sitio web responsive (desktop y móvil), no app nativa; exactamente 8 pantallas de diseño coherentes entre sí (p. ej. inicio, catálogo o listado, detalle de producto, carrito o checkout, cuenta, contacto o FAQ, según el tipo de producto indicado arriba). No generes menos pantallas de las indicadas.]",
+      "platformIds": [
+        "wordpress"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "generatedAt": "2026-05-28T09:21:00.000Z",
+  "credentials": [
+    {
+      "app": "WordPress",
+      "adminUrl": "http://localhost:8080/wp-admin",
+      "user": "admin",
+      "password": "Admin1234!",
+      "validated": true
+    },
+    {
+      "app": "Joomla",
+      "adminUrl": "http://localhost:8082/administrator",
+      "user": "admin",
+      "password": "Admin1234!123",
+      "validated": true
+    },
+    {
+      "app": "PrestaShop",
+      "adminUrl": "http://localhost:8085/admin-dev",
+      "user": "demo@prestashop.com",
+      "password": "prestashop_demo",
+      "validated": true
+    },
+    {
+      "app": "OpenCart",
+      "adminUrl": "http://localhost:8086/admin",
+      "user": "admin",
+      "password": "Admin1234!",
+      "validated": true
+    },
+    {
+      "app": "Moodle",
+      "adminUrl": "http://localhost:8084/login/index.php",
+      "user": "admin",
+      "password": "Admin1234!",
+      "validated": true
+    }
+  ],
+  "sampleData": [
+    {
+      "app": "WordPress",
+      "type": "posts",
+      "count": 4
+    },
+    {
+      "app": "OpenCart",
+      "type": "products",
+      "count": 19
+    },
+    {
+      "app": "PrestaShop",
+      "type": "products",
+      "count": 19
+    },
+    {
+      "app": "Moodle",
+      "type": "courses",
+      "count": 1
+    }
+  ],
+  "pending": [
+    {
+      "app": "Drupal",
+      "reason": "Instalador no finalizado en la imagen actual."
+    },
+    {
+      "app": "Magento",
+      "reason": "Admin de la instancia principal sigue en 404 y catalogo sin productos (0)."
+    }
+  ]
+}

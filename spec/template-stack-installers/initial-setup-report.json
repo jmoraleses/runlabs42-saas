@@ -1,0 +1,32 @@
+{
+  "generatedAt": "2026-05-28T09:07:47.133Z",
+  "report": [
+    {
+      "app": "wordpress",
+      "ok": true,
+      "notes": []
+    },
+    {
+      "app": "joomla",
+      "ok": false,
+      "notes": [
+        "Error Joomla: page.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#step2')\n    - locator resolved to <button id=\"step2\" class=\"btn btn-primary w-100\">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    58 × waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n"
+      ]
+    },
+    {
+      "app": "drupal",
+      "ok": false,
+      "notes": [
+        "Perfil Drupal Umami seleccionado (incluye contenido de ejemplo).",
+        "No se pudo confirmar finalización Drupal."
+      ]
+    },
+    {
+      "app": "opencart",
+      "ok": false,
+      "notes": [
+        "Error OpenCart: page.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('a.btn.btn-primary, a:has-text(\"Continue\")')\n"
+      ]
+    }
+  ]
+}

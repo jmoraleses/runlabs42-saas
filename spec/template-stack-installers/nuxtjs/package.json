@@ -1,0 +1,11 @@
+{
+  "name": "nuxt-template",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build"
+  },
+  "dependencies": {
+    "nuxt": "^4.4.6"
+  }
+}

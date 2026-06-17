@@ -1,0 +1,27 @@
+{
+  "generatedAt": "2026-05-28T09:09:03.948Z",
+  "report": [
+    {
+      "app": "joomla",
+      "ok": false,
+      "notes": [
+        "Joomla no confirmó finalización."
+      ]
+    },
+    {
+      "app": "drupal",
+      "ok": true,
+      "notes": [
+        "Perfil Umami seleccionado (contenido de ejemplo).",
+        "Drupal instalado."
+      ]
+    },
+    {
+      "app": "opencart",
+      "ok": true,
+      "notes": [
+        "OpenCart instalado."
+      ]
+    }
+  ]
+}

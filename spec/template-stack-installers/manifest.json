@@ -1,0 +1,167 @@
+{
+  "generatedAt": "2026-05-28T11:23:38.927Z",
+  "rootPath": "spec/template-stack-installers",
+  "stacks": [
+    {
+      "id": "wordpress",
+      "label": "WordPress",
+      "status": "ready",
+      "path": "spec/template-stack-installers/wordpress",
+      "notes": "Local one-click profile generated with runnable commands."
+    },
+    {
+      "id": "html",
+      "label": "HTML",
+      "status": "ready",
+      "path": "spec/template-stack-installers/html",
+      "notes": "Local one-click profile generated with runnable commands."
+    },
+    {
+      "id": "nextjs",
+      "label": "Next.js",
+      "status": "ready",
+      "path": "spec/template-stack-installers/nextjs",
+      "notes": "Local one-click profile generated with runnable commands."
+    },
+    {
+      "id": "jekyll",
+      "label": "Jekyll",
+      "status": "ready",
+      "path": "spec/template-stack-installers/jekyll",
+      "notes": "Local one-click profile generated with runnable commands."
+    },
+    {
+      "id": "gatsbyjs",
+      "label": "Gatsby.js",
+      "status": "ready",
+      "path": "spec/template-stack-installers/gatsbyjs",
+      "notes": "Local one-click profile generated with runnable commands."
+    },
+    {
+      "id": "misc-web",
+      "label": "Miscellaneous (Web)",
+      "status": "manual",
+      "path": "spec/template-stack-installers/misc-web",
+      "notes": "Manual adapter scaffold created. Add provider-specific installer steps."
+    },
+    {
+      "id": "nuxtjs",
+      "label": "Nuxt.js",
+      "status": "ready",
+      "path": "spec/template-stack-installers/nuxtjs",
+      "notes": "Local one-click profile generated with runnable commands."
+    },
+    {
+      "id": "sveltekit",
+      "label": "SvelteKit",
+      "status": "ready",
+      "path": "spec/template-stack-installers/sveltekit",
+      "notes": "Local one-click profile generated with runnable commands."
+    },
+    {
+      "id": "joomla",
+      "label": "Joomla",
+      "status": "ready",
+      "path": "spec/template-stack-installers/joomla",
+      "notes": "Local one-click profile generated with runnable commands."
+    },
+    {
+      "id": "drupal",
+      "label": "Drupal",
+      "status": "ready",
+      "path": "spec/template-stack-installers/drupal",
+      "notes": "Local one-click profile generated with runnable commands."
+    },
+    {
+      "id": "hubspot-cms-hub",
+      "label": "HubSpot CMS Hub",
+      "status": "cloud",
+      "path": "spec/template-stack-installers/hubspot-cms-hub",
+      "notes": "Cloud platform: requires account auth and deployment through provider APIs."
+    },
+    {
+      "id": "moodle",
+      "label": "Moodle",
+      "status": "ready",
+      "path": "spec/template-stack-installers/moodle",
+      "notes": "Local one-click profile generated with runnable commands."
+    },
+    {
+      "id": "modx-themes",
+      "label": "MODX Themes",
+      "status": "manual",
+      "path": "spec/template-stack-installers/modx-themes",
+      "notes": "Manual adapter scaffold created. Add provider-specific installer steps."
+    },
+    {
+      "id": "webflow",
+      "label": "Webflow",
+      "status": "cloud",
+      "path": "spec/template-stack-installers/webflow",
+      "notes": "Cloud platform: requires account auth and deployment through provider APIs."
+    },
+    {
+      "id": "misc-cms",
+      "label": "Miscellaneous (CMS)",
+      "status": "manual",
+      "path": "spec/template-stack-installers/misc-cms",
+      "notes": "Manual adapter scaffold created. Add provider-specific installer steps."
+    },
+    {
+      "id": "concrete5",
+      "label": "Concrete5",
+      "status": "manual",
+      "path": "spec/template-stack-installers/concrete5",
+      "notes": "Manual adapter scaffold created. Add provider-specific installer steps."
+    },
+    {
+      "id": "weebly",
+      "label": "Weebly",
+      "status": "cloud",
+      "path": "spec/template-stack-installers/weebly",
+      "notes": "Cloud platform: requires account auth and deployment through provider APIs."
+    },
+    {
+      "id": "shopify",
+      "label": "Shopify",
+      "status": "cloud",
+      "path": "spec/template-stack-installers/shopify",
+      "notes": "Cloud platform: requires account auth and deployment through provider APIs."
+    },
+    {
+      "id": "prestashop",
+      "label": "PrestaShop",
+      "status": "ready",
+      "path": "spec/template-stack-installers/prestashop",
+      "notes": "Local one-click profile generated with runnable commands."
+    },
+    {
+      "id": "opencart",
+      "label": "OpenCart",
+      "status": "ready",
+      "path": "spec/template-stack-installers/opencart",
+      "notes": "Local one-click profile generated with runnable commands."
+    },
+    {
+      "id": "magento",
+      "label": "Magento",
+      "status": "ready",
+      "path": "spec/template-stack-installers/magento",
+      "notes": "Local one-click profile generated with runnable commands."
+    },
+    {
+      "id": "bigcommerce",
+      "label": "BigCommerce",
+      "status": "cloud",
+      "path": "spec/template-stack-installers/bigcommerce",
+      "notes": "Cloud platform: requires account auth and deployment through provider APIs."
+    },
+    {
+      "id": "zencart",
+      "label": "Zen Cart",
+      "status": "manual",
+      "path": "spec/template-stack-installers/zencart",
+      "notes": "Manual adapter scaffold created. Add provider-specific installer steps."
+    }
+  ]
+}

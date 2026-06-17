@@ -1,0 +1,80 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+.nyc_output
+/test-results/
+
+# Next.js
+/.next/
+.next-production-build
+/out/
+
+# Production
+/build
+
+# Workspace efímero del editor (ya no usado)
+.runlabs/
+
+# Demo local: memoria y archivos de proyecto (desarrollo)
+.data/
+
+# Supabase CLI (link local)
+supabase/.temp/
+
+# Misc
+.DS_Store
+*.pem
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables (nunca subir secretos al repo)
+.env
+.env.*
+!.env.local.example
+!.env.example
+
+# Editor
+.kiro/
+.claude/
+.claude/worktrees/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Self-hosted Monaco (generado por scripts/copy-monaco.mjs)
+public/monaco/
+
+# OS
+Thumbs.db
+
+# Vercel / deploy local
+.vercel
+.runlabs/
+*.map
+.env*.local
+.env*
+.pnpm-store
+
+# Vertex Agent Engine (design orchestrator)
+agents/design-orchestrator/dist/
+agents/design-orchestrator/deploy_staging/
+__pycache__/
+*.egg-info/
+
+# Artefactos locales de pruebas/e2e
+uploads/
+.auth/
+.tmp/
+.tmp-docker-config/
+
+# Artefactos de build de templates (evitar commits accidentales)
+spec/template-stack-installers/**/.next/
+spec/template-stack-installers/**/.cache/

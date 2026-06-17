@@ -1,0 +1,86 @@
+{
+  "generatedAt": "2026-05-28T10:07:35.205Z",
+  "apps": [
+    {
+      "id": "wordpress",
+      "name": "WordPress",
+      "url": "http://localhost:8080",
+      "adminUrl": "http://localhost:8080/wp-admin",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:8080/",
+      "title": "Local CMS",
+      "notes": [
+        "Login admin WordPress validado con Playwright."
+      ]
+    },
+    {
+      "id": "joomla",
+      "name": "Joomla",
+      "url": "http://localhost:8082",
+      "adminUrl": "http://localhost:8082/administrator",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:8082/",
+      "title": "Home",
+      "notes": []
+    },
+    {
+      "id": "drupal",
+      "name": "Drupal",
+      "url": "http://localhost:8083",
+      "adminUrl": "http://localhost:8083/user/login",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:8083/",
+      "title": "Welcome! | Drupal Local",
+      "notes": []
+    },
+    {
+      "id": "moodle",
+      "name": "Moodle",
+      "url": "http://localhost:8084",
+      "adminUrl": "http://localhost:8084/login/index.php",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:8084/",
+      "title": "Home | Local Moodle",
+      "notes": []
+    },
+    {
+      "id": "prestashop",
+      "name": "PrestaShop",
+      "url": "http://localhost:8085",
+      "adminUrl": "http://localhost:8085/admin-dev",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:8085/",
+      "title": "PrestaShop",
+      "notes": []
+    },
+    {
+      "id": "opencart",
+      "name": "OpenCart",
+      "url": "http://localhost:8086",
+      "adminUrl": "http://localhost:8086/admin",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://localhost:8086/",
+      "title": "Your Store",
+      "notes": []
+    },
+    {
+      "id": "magento",
+      "name": "Magento",
+      "url": "http://127.0.0.1:8087",
+      "adminUrl": "http://127.0.0.1:8087/index.php/admin",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "http://127.0.0.1:8087/",
+      "title": "Home page",
+      "notes": [
+        "Magento admin (http://127.0.0.1:8087/index.php/admin) estado: 200."
+      ]
+    }
+  ]
+}

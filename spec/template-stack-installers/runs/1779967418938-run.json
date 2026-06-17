@@ -1,0 +1,24 @@
+{
+  "generatedAt": "2026-05-28T11:23:38.938Z",
+  "total": 1,
+  "ok": 1,
+  "failed": 0,
+  "options": {
+    "includeManual": false,
+    "includeCloud": false,
+    "stackIds": [
+      "html"
+    ]
+  },
+  "results": [
+    {
+      "id": "html",
+      "label": "HTML",
+      "ok": true,
+      "code": 0,
+      "stdout": "HTML scaffold listo en preview/index.html",
+      "stderr": "",
+      "scriptPath": "spec/template-stack-installers/html/install.sh"
+    }
+  ]
+}

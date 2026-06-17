@@ -1,0 +1,144 @@
+{
+  "generatedAt": "2026-05-28T07:42:31.294Z",
+  "total": 13,
+  "ok": 13,
+  "failed": 0,
+  "options": {
+    "includeManual": false,
+    "includeCloud": false,
+    "stackIds": [
+      "wordpress",
+      "html",
+      "nextjs",
+      "jekyll",
+      "gatsbyjs",
+      "nuxtjs",
+      "sveltekit",
+      "joomla",
+      "drupal",
+      "moodle",
+      "prestashop",
+      "opencart",
+      "magento"
+    ]
+  },
+  "results": [
+    {
+      "id": "wordpress",
+      "label": "WordPress",
+      "ok": true,
+      "code": 0,
+      "stdout": "Docker no disponible: WordPress omitido",
+      "stderr": "",
+      "scriptPath": "spec/template-stack-installers/wordpress/install.sh"
+    },
+    {
+      "id": "html",
+      "label": "HTML",
+      "ok": true,
+      "code": 0,
+      "stdout": "HTML scaffold listo en preview/index.html",
+      "stderr": "",
+      "scriptPath": "spec/template-stack-installers/html/install.sh"
+    },
+    {
+      "id": "nextjs",
+      "label": "Next.js",
+      "ok": true,
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "scriptPath": "spec/template-stack-installers/nextjs/install.sh"
+    },
+    {
+      "id": "jekyll",
+      "label": "Jekyll",
+      "ok": true,
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "scriptPath": "spec/template-stack-installers/jekyll/install.sh"
+    },
+    {
+      "id": "gatsbyjs",
+      "label": "Gatsby.js",
+      "ok": true,
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "scriptPath": "spec/template-stack-installers/gatsbyjs/install.sh"
+    },
+    {
+      "id": "nuxtjs",
+      "label": "Nuxt.js",
+      "ok": true,
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "scriptPath": "spec/template-stack-installers/nuxtjs/install.sh"
+    },
+    {
+      "id": "sveltekit",
+      "label": "SvelteKit",
+      "ok": true,
+      "code": 0,
+      "stdout": "",
+      "stderr": "",
+      "scriptPath": "spec/template-stack-installers/sveltekit/install.sh"
+    },
+    {
+      "id": "joomla",
+      "label": "Joomla",
+      "ok": true,
+      "code": 0,
+      "stdout": "Docker no disponible: Joomla omitido",
+      "stderr": "",
+      "scriptPath": "spec/template-stack-installers/joomla/install.sh"
+    },
+    {
+      "id": "drupal",
+      "label": "Drupal",
+      "ok": true,
+      "code": 0,
+      "stdout": "Docker no disponible: Drupal omitido",
+      "stderr": "",
+      "scriptPath": "spec/template-stack-installers/drupal/install.sh"
+    },
+    {
+      "id": "moodle",
+      "label": "Moodle",
+      "ok": true,
+      "code": 0,
+      "stdout": "Docker no disponible: Moodle omitido",
+      "stderr": "",
+      "scriptPath": "spec/template-stack-installers/moodle/install.sh"
+    },
+    {
+      "id": "prestashop",
+      "label": "PrestaShop",
+      "ok": true,
+      "code": 0,
+      "stdout": "Docker no disponible: PrestaShop omitido",
+      "stderr": "",
+      "scriptPath": "spec/template-stack-installers/prestashop/install.sh"
+    },
+    {
+      "id": "opencart",
+      "label": "OpenCart",
+      "ok": true,
+      "code": 0,
+      "stdout": "Docker no disponible: OpenCart omitido",
+      "stderr": "",
+      "scriptPath": "spec/template-stack-installers/opencart/install.sh"
+    },
+    {
+      "id": "magento",
+      "label": "Magento",
+      "ok": true,
+      "code": 0,
+      "stdout": "Docker no disponible: Magento omitido",
+      "stderr": "",
+      "scriptPath": "spec/template-stack-installers/magento/install.sh"
+    }
+  ]
+}

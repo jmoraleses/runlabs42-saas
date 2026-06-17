@@ -1,0 +1,13 @@
+{
+  "name": "sveltekit-template",
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "@sveltejs/kit": "^2.61.1",
+    "svelte": "^5.55.10",
+    "vite": "^8.0.14"
+  }
+}
