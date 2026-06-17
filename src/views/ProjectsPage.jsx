@@ -12,6 +12,7 @@ import { openStudio } from '@/lib/projects/openStudio'
 import { ProjectCardPreview } from '@/components/projects/ProjectCardPreview'
 import { ProjectDeleteConfirmDialog } from '@/components/projects/ProjectDeleteConfirmDialog'
 import { isDemoActive, updateDemoProject } from '@/lib/auth/demo'
+import { getDemoPreviewUrl } from '@/lib/env'
 import {
   addDemoMarketplaceProduct,
   DEMO_MARKETPLACE_STORAGE_QUOTA_ERROR,
@@ -636,7 +637,7 @@ function ProjectDetailPage({ projectId }) {
   async function handleDeploy() {
     if (!project) return
     if (isDemoActive()) {
-      const demoUrl = `https://demo.runlabs42.app/${project.id}`
+      const demoUrl = getDemoPreviewUrl(project.id)
       updateDemoProject(project.id, { deployedUrl: demoUrl })
       setActionNotice({ type: 'success', message: t('projects.action.deployOk') })
       await refresh()
@@ -1288,7 +1289,7 @@ function ProjectsListPage() {
   async function handleDeploy() {
     if (!singleSelected) return
     if (isDemoActive()) {
-      const demoUrl = `https://demo.runlabs42.app/${singleSelected.id}`
+      const demoUrl = getDemoPreviewUrl(singleSelected.id)
       updateDemoProject(singleSelected.id, { deployedUrl: demoUrl })
       setActionNotice({ type: 'success', message: t('projects.action.deployOk') })
       await refresh()

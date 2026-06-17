@@ -32,6 +32,13 @@ export function getAppUrl(): string {
   return 'http://localhost:3010'
 }
 
+/** Preview URL para proyectos en modo demo (configurable vía env). */
+export function getDemoPreviewUrl(projectId: string): string {
+  const base = process.env.NEXT_PUBLIC_DEMO_PREVIEW_BASE_URL?.trim().replace(/\/$/, '')
+  if (base) return `${base}/${projectId}`
+  return `${getAppUrl()}/demo/${projectId}`
+}
+
 export function isVercel(): boolean {
   return process.env.VERCEL === '1'
 }

@@ -16,12 +16,10 @@ export type FigmaOAuthState = {
   returnTo?: string
 }
 
+import { getOAuthStateSecret } from './oauthStateSecret'
+
 function oauthSecret(): string {
-  return (
-    process.env.INTEGRATIONS_ENCRYPTION_KEY ||
-    process.env.FIGMA_OAUTH_CLIENT_SECRET ||
-    'dev-runlabs42-figma-oauth'
-  )
+  return getOAuthStateSecret(process.env.FIGMA_OAUTH_CLIENT_SECRET)
 }
 
 function signPayload(payload: string): string {

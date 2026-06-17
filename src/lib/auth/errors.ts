@@ -73,7 +73,7 @@ export function formatAuthError(
   ) {
     return (
       'La sesión OAuth expiró o las cookies no se guardaron. ' +
-      'Usa siempre la misma URL (p. ej. https://www.runlabs42.com, no mezclar con runlabs42.com sin www). ' +
+      'Usa siempre la misma URL canónica registrada en Supabase → Authentication → URL Configuration (sin mezclar www y apex). ' +
       'Añade esa URL exacta en Supabase → Authentication → URL Configuration → Redirect URLs, ' +
       'intenta en una ventana normal (no incógnito) e inicia sesión de nuevo.'
     )

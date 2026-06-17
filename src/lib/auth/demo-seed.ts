@@ -11,6 +11,7 @@ import {
   writeDemoJson,
   type DemoProjectFile,
 } from '@/lib/auth/demo'
+import { getDemoPreviewUrl } from '@/lib/env'
 
 export const DEMO_MARKETPLACE_STORAGE_QUOTA_ERROR = 'DEMO_STORAGE_QUOTA'
 
@@ -83,7 +84,7 @@ function _buildSeedProjects(): Project[] {
       public: false,
       createdAt: daysAgo(30),
       updatedAt: daysAgo(2),
-      deployedUrl: `https://demo.runlabs42.app/${SEED_PROJECT_IDS.saas}`,
+      deployedUrl: getDemoPreviewUrl(SEED_PROJECT_IDS.saas),
       targetPlatforms: ['web'],
       mobileConfig: null,
       mobileReadiness: null,

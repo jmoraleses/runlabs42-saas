@@ -1,7 +1,8 @@
 import type { LegalContentMap } from '@/lib/legal/types'
+import { getAppUrl } from '@/lib/env'
 
 const COMPANY = 'Runlabs42'
-const CONTACT = 'https://www.runlabs42.com/contact'
+const CONTACT = `${getAppUrl()}/contact`
 
 export const enLegal: LegalContentMap = {
   privacy: {
@@ -15,7 +16,7 @@ export const enLegal: LegalContentMap = {
         id: 'controller',
         title: '1. Data controller',
         paragraphs: [
-          `The data controller responsible for processing personal data in connection with ${COMPANY} is the entity operating the platform at runlabs42.com (hereinafter "${COMPANY}" or "we").`,
+          `The data controller responsible for processing personal data in connection with ${COMPANY} is the entity operating the platform (hereinafter "${COMPANY}" or "we").`,
           `For privacy-related requests, contact us via ${CONTACT} or the address indicated on our website.`,
         ],
       },

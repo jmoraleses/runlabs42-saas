@@ -4,22 +4,24 @@
  * (design.md, HTML, PNG, meta.json). Pega el prompt original en prompt.txt.
  *
  * Uso:
- *   npm run stitch:sync
- *   npm run stitch:sync -- 2510768920948183313 c41095306a6146ed9bd54a0c72fc5b32
+ *   STITCH_API_KEY=... STITCH_PROJECT_ID=... STITCH_SCREEN_ID=... npm run stitch:sync
+ *   npm run stitch:sync -- <projectId> <screenId>
  */
+import { config } from 'dotenv'
 import { readFileSync, writeFileSync, mkdirSync } from 'fs'
-import { homedir } from 'os'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const PROJECT = process.argv[2]?.trim() || '2510768920948183313'
-const SCREEN = process.argv[3]?.trim() || 'c41095306a6146ed9bd54a0c72fc5b32'
+config({ path: resolve(root, '.env.local') })
+
+const PROJECT = process.argv[2]?.trim() || process.env.STITCH_PROJECT_ID?.trim()
+const SCREEN = process.argv[3]?.trim() || process.env.STITCH_SCREEN_ID?.trim()
 
 function stitchKey() {
-  if (process.env.STITCH_API_KEY?.trim()) return process.env.STITCH_API_KEY.trim()
-  const mcp = JSON.parse(readFileSync(resolve(homedir(), '.cursor/mcp.json'), 'utf8'))
-  return mcp.mcpServers?.stitch?.headers?.['X-Goog-Api-Key']
+  const key = process.env.STITCH_API_KEY?.trim()
+  if (!key) throw new Error('Falta STITCH_API_KEY en .env.local')
+  return key
 }
 
 async function stitchTool(name, args) {
@@ -78,6 +80,10 @@ async function download(url, dest) {
 }
 
 async function main() {
+  if (!PROJECT || !SCREEN) {
+    throw new Error('Indica STITCH_PROJECT_ID y STITCH_SCREEN_ID (env o argumentos CLI)')
+  }
+
   const outDir = resolve(root, 'uploads', 'stitch-reference', PROJECT)
   mkdirSync(outDir, { recursive: true })
 
@@ -130,6 +136,6 @@ async function main() {
 }
 
 main().catch((e) => {
-  console.error(e)
+  console.error(e instanceof Error ? e.message : e)
   process.exit(1)
 })

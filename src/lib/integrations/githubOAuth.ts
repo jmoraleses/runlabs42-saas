@@ -14,12 +14,10 @@ export type GithubOAuthState = {
   popup: boolean
 }
 
+import { getOAuthStateSecret } from './oauthStateSecret'
+
 function oauthSecret(): string {
-  return (
-    process.env.INTEGRATIONS_ENCRYPTION_KEY ||
-    process.env.GITHUB_OAUTH_CLIENT_SECRET ||
-    'dev-runlabs42-github-oauth'
-  )
+  return getOAuthStateSecret(process.env.GITHUB_OAUTH_CLIENT_SECRET)
 }
 
 function signPayload(payload: string): string {

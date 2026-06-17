@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Bricolage_Grotesque, DM_Sans, JetBrains_Mono } from 'next/font/google'
+import { getAppUrl, isSitePublic } from '@/lib/env'
 import { VercelInsights } from '@/components/VercelInsights'
 import { DemoLocalBootstrap } from '@/components/app/DemoLocalBootstrap'
-import { isSitePublic } from '@/lib/env'
 import '@/styles.css'
 
 const display = Bricolage_Grotesque({
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Runlabs42',
     description: 'Crea webs con IA desde el navegador. Sin terminal.',
-    url: 'https://runlabs42.vercel.app',
+    url: getAppUrl(),
     siteName: 'Runlabs42',
     locale: 'es_ES',
     type: 'website',

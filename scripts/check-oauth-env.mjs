@@ -12,22 +12,21 @@ const supabaseUrl = (process.env.NEXT_PUBLIC_SUPABASE_URL || '').replace(/\/$/, 
 const SUPABASE_CALLBACK = supabaseUrl
   ? `${supabaseUrl}/auth/v1/callback`
   : 'https://YOUR-PROJECT-REF.supabase.co/auth/v1/callback'
-const APP_URL = (process.env.NEXT_PUBLIC_APP_URL || '').replace(/\/$/, '')
+const APP_URL = (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3010').replace(/\/$/, '')
 
-console.log('\n=== OAuth Runlabs42 — checklist ===\n')
+console.log('\n=== OAuth — checklist ===\n')
 console.log('Supabase callback (Google Cloud → Authorized redirect URIs):')
 console.log(`  ${SUPABASE_CALLBACK}\n`)
 
-console.log('Supabase → URL Configuration → Redirect URLs (añadir todas):')
+console.log('Supabase → URL Configuration → Redirect URLs (añadir):')
 ;[
-  'https://www.runlabs42.com/auth/callback',
-  'https://runlabs42.com/auth/callback',
-  'https://runlabs42.vercel.app/auth/callback',
+  `${APP_URL}/auth/callback`,
   'http://localhost:3010/auth/callback',
+  'http://127.0.0.1:3010/auth/callback',
 ].forEach((u) => console.log(`  ${u}`))
 
-console.log('\nVercel / local:')
-console.log(`  NEXT_PUBLIC_APP_URL: ${APP_URL || '(vacío — usar https://www.runlabs42.com)'}`)
+console.log('\nVariables:')
+console.log(`  NEXT_PUBLIC_APP_URL: ${APP_URL}`)
 console.log(
   `  NEXT_PUBLIC_SUPABASE_URL: ${process.env.NEXT_PUBLIC_SUPABASE_URL || '(vacío)'}`,
 )
@@ -41,7 +40,7 @@ if (gemini.startsWith('GOCSPX-')) {
   console.log('    Gemini usa clave AIza… desde https://aistudio.google.com/apikey\n')
 }
 
-console.log('Supabase Google provider:')
+console.log('Supabase Google provider (sustituye TU-PROJECT-REF):')
 console.log(
   '  https://supabase.com/dashboard/project/TU-PROJECT-REF/auth/providers\n',
 )

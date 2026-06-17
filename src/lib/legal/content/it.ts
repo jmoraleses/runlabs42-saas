@@ -1,7 +1,8 @@
 import type { LegalContentMap } from '@/lib/legal/types'
+import { getAppUrl } from '@/lib/env'
 
 const COMPANY = 'Runlabs42'
-const CONTACT = 'https://www.runlabs42.com/contact'
+const CONTACT = `${getAppUrl()}/contact`
 
 export const itLegal: LegalContentMap = {
   privacy: {
@@ -15,7 +16,7 @@ export const itLegal: LegalContentMap = {
         id: 'controller',
         title: '1. Titolare del trattamento',
         paragraphs: [
-          `Il titolare del trattamento dei dati personali in relazione a ${COMPANY} è l'entità che gestisce la piattaforma su runlabs42.com (di seguito «${COMPANY}» o «noi»).`,
+          `Il titolare del trattamento dei dati personali in relazione a ${COMPANY} è l'entità che gestisce la piattaforma (di seguito «${COMPANY}» o «noi»).`,
           `Per richieste sulla privacy, contattaci tramite ${CONTACT} o l'indirizzo indicato sul sito.`,
         ],
       },

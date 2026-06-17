@@ -6,7 +6,7 @@ import './preload-server-only.mjs'
  *
  * Uso:
  *   npm run stitch:dual -- "Landing para tienda de café, desktop"
- *   npm run stitch:dual -- "..." --project=2510768920948183313
+ *   npm run stitch:dual -- "..." --project=<stitchProjectId>
  *   npm run stitch:dual -- "..." --stitch-only
  *   npm run stitch:dual -- "..." --runlabs-only
  */

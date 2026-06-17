@@ -52,7 +52,7 @@ Estilo: minimalismo corporativo moderno, paleta indigo profundo (#15157d / #2e31
     deviceType: 'DESKTOP',
     width: 1280,
     height: 720,
-    prompt: `Landing desktop de Runlabs42 (runlabs42.com): hero con titular "Cuéntanos tu idea. Te ayudamos a crearla.", subtítulo sobre generar páginas y código, compositor de prompt grande con chips (página de negocio, portfolio, precios, contacto), CTA "Empezar gratis".
+    prompt: `Landing desktop SaaS: hero con titular "Cuéntanos tu idea. Te ayudamos a crearla.", subtítulo sobre generar páginas y código, compositor de prompt grande con chips (página de negocio, portfolio, precios, contacto), CTA "Empezar gratis".
 Sección "Cómo funciona" en 4 pasos: Especifica, Diseña, Construye, Publica.
 Grid de confianza / logos. Footer con columnas Producto, Recursos, Empresa, Legal.
 Estilo coherente: indigo + teal, Inter, mucho espacio en blanco, aspecto SaaS premium.`,

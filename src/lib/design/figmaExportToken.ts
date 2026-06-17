@@ -1,15 +1,12 @@
 import 'server-only'
 
 import { createHmac, timingSafeEqual } from 'crypto'
+import { getOAuthStateSecret } from '@/lib/integrations/oauthStateSecret'
 
 const TTL_MS = 60 * 60 * 1000
 
 function secret(): string {
-  return (
-    process.env.INTEGRATIONS_ENCRYPTION_KEY ||
-    process.env.FIGMA_OAUTH_CLIENT_SECRET ||
-    'dev-figma-export-token'
-  )
+  return getOAuthStateSecret(process.env.FIGMA_OAUTH_CLIENT_SECRET)
 }
 
 export function signFigmaExportToken(

@@ -15,7 +15,6 @@ import {
   readdirSync,
   writeFileSync,
 } from 'fs'
-import { homedir } from 'os'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -23,15 +22,12 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 config({ path: resolve(root, '.env.local') })
 
 const MODEL_ID = process.env.BENCHMARK_MODEL ?? 'gemini-2.5-flash-lite'
-const STITCH_PROJECT = process.env.STITCH_PROJECT_ID ?? '2510768920948183313'
-const STITCH_SCREEN = process.env.STITCH_SCREEN_ID ?? 'c41095306a6146ed9bd54a0c72fc5b32'
+const STITCH_PROJECT = process.env.STITCH_PROJECT_ID?.trim()
+const STITCH_SCREEN = process.env.STITCH_SCREEN_ID?.trim()
 
 function stitchApiKey() {
-  if (process.env.STITCH_API_KEY?.trim()) return process.env.STITCH_API_KEY.trim()
-  const mcpPath = resolve(homedir(), '.cursor/mcp.json')
-  const mcp = JSON.parse(readFileSync(mcpPath, 'utf8'))
-  const key = mcp.mcpServers?.stitch?.headers?.['X-Goog-Api-Key']
-  if (!key) throw new Error('No STITCH_API_KEY ni stitch en ~/.cursor/mcp.json')
+  const key = process.env.STITCH_API_KEY?.trim()
+  if (!key) throw new Error('Falta STITCH_API_KEY en .env.local')
   return key
 }
 
@@ -116,6 +112,10 @@ function log(msg) {
 }
 
 async function main() {
+  if (!STITCH_PROJECT || !STITCH_SCREEN) {
+    throw new Error('Define STITCH_PROJECT_ID y STITCH_SCREEN_ID en .env.local')
+  }
+
   const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
   const outDir = resolve(root, 'uploads', `stitch-benchmark-${stamp}`)
   mkdirSync(outDir, { recursive: true })

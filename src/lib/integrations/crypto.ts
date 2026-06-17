@@ -3,14 +3,13 @@ import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from 'crypt
 const PREFIX = 'rl42:v1:'
 
 function deriveKey(): Buffer {
-  const secret = process.env.INTEGRATIONS_ENCRYPTION_KEY
+  const secret = process.env.INTEGRATIONS_ENCRYPTION_KEY?.trim()
   if (!secret || secret.length < 16) {
-    if (process.env.NODE_ENV === 'production') {
-      throw new Error('INTEGRATIONS_ENCRYPTION_KEY requerida en producción')
-    }
-    return scryptSync('dev-only-runlabs42-integrations', 'salt', 32)
+    throw new Error(
+      'INTEGRATIONS_ENCRYPTION_KEY requerida (mín. 16 caracteres) para cifrar integraciones.',
+    )
   }
-  return scryptSync(secret, 'runlabs42-integrations-v1', 32)
+  return scryptSync(secret, 'integrations-encryption-v1', 32)
 }
 
 export function encryptSecret(plaintext: string): string {

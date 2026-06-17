@@ -15,8 +15,12 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 config({ path: resolve(root, '.env.local') })
 
 const MODEL_ID = process.env.DESIGN_GEN_MODEL ?? 'gemini-2.5-flash-lite'
-const STITCH_PROJECT = '2510768920948183313'
-const STITCH_SCREEN = 'c41095306a6146ed9bd54a0c72fc5b32'
+const STITCH_PROJECT = process.env.STITCH_PROJECT_ID?.trim()
+const STITCH_SCREEN = process.env.STITCH_SCREEN_ID?.trim()
+if (!STITCH_PROJECT || !STITCH_SCREEN) {
+  console.error('Define STITCH_PROJECT_ID y STITCH_SCREEN_ID en .env.local')
+  process.exit(1)
+}
 const REF_DIR = resolve(root, 'uploads', 'stitch-reference', STITCH_PROJECT)
 
 const POLLITOS_PROMPT = `Landing de una sola pantalla (id home) para "Tienda de Pollitos Amarillos": tienda online de pollitos amarillos para familias.

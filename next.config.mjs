@@ -11,21 +11,26 @@ const config = {
   swcMinify: true,
   poweredByHeader: false,
 
-  /** Misma URL canónica que Supabase Redirect URLs (evita fallos PKCE www vs apex). */
+  /** Redirección canónica opcional (CANONICAL_HOST + CANONICAL_URL en env de deploy). */
   async redirects() {
-    return [
+    const redirects = [
       {
         source: '/favicon.ico',
         destination: '/favicon.png',
         permanent: false,
       },
-      {
-        source: '/:path*',
-        has: [{ type: 'host', value: 'runlabs42.com' }],
-        destination: 'https://www.runlabs42.com/:path*',
-        permanent: true,
-      },
     ]
+    const canonicalHost = process.env.CANONICAL_HOST?.trim()
+    const canonicalUrl = process.env.CANONICAL_URL?.trim()?.replace(/\/$/, '')
+    if (canonicalHost && canonicalUrl) {
+      redirects.push({
+        source: '/:path*',
+        has: [{ type: 'host', value: canonicalHost }],
+        destination: `${canonicalUrl}/:path*`,
+        permanent: true,
+      })
+    }
+    return redirects
   },
 
   images: {

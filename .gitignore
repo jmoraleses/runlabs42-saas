@@ -16,15 +16,8 @@ node_modules/
 # Production
 /build
 
-# Workspace efímero del editor (ya no usado)
-.runlabs/
-
-# Demo local: memoria y archivos de proyecto (desarrollo)
-.data/
-
-# Supabase CLI (link local)
-supabase/.temp/
-supabase/.branches/
+# Ninguna carpeta oculta (dot-directories) debe versionarse
+**/.*/
 
 # Misc
 .DS_Store
@@ -44,24 +37,6 @@ yarn-error.log*
 *.md
 !README.md
 
-# Carpetas ocultas locales (solo permitir configuración esencial del proyecto)
-.auth/
-.claude/
-.cursor/
-.data/
-.kiro/
-.pnpm-store/
-.runlabs/
-.specify/
-.tmp/
-.tmp-docker-config/
-.vercel/
-*.swp
-*.swo
-*~
-.vscode/
-.idea/
-
 # Self-hosted Monaco (generado por scripts/copy-monaco.mjs)
 public/monaco/
 
@@ -69,13 +44,9 @@ public/monaco/
 Thumbs.db
 
 # Vercel / deploy local
-.vercel
-.runlabs/
 *.map
 .env*.local
-.env*
 .pnpm-store
-!.env.local.example
 
 # npm lockfile (el proyecto usa pnpm)
 package-lock.json
@@ -89,9 +60,6 @@ __pycache__/
 
 # Artefactos locales de pruebas/e2e
 uploads/
-.auth/
-.tmp/
-.tmp-docker-config/
 tmp-stitch-dl/
 
 # Artefactos de build de templates (evitar commits accidentales)

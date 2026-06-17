@@ -19,12 +19,10 @@ export type VercelTokenExchange = {
   userId: string | null
 }
 
+import { getOAuthStateSecret } from './oauthStateSecret'
+
 function oauthSecret(): string {
-  return (
-    process.env.INTEGRATIONS_ENCRYPTION_KEY ||
-    process.env.VERCEL_INTEGRATION_CLIENT_SECRET ||
-    'dev-runlabs42-vercel-oauth'
-  )
+  return getOAuthStateSecret(process.env.VERCEL_INTEGRATION_CLIENT_SECRET)
 }
 
 function signPayload(payload: string): string {

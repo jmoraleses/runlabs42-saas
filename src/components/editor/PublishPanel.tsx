@@ -10,6 +10,7 @@ import {
   updateDemoProject,
 } from '@/lib/auth/demo'
 import { fetchDemoProjectFiles } from '@/lib/auth/demoProjectFilesClient'
+import { getDemoPreviewUrl } from '@/lib/env'
 import { runMobileReadinessScan } from '@/lib/mobile/scan'
 import { validateProjectForWebDeploy } from '@/lib/mobile/validateDeploy'
 import type { CodeTemplate } from '@/lib/codeTemplates'
@@ -141,7 +142,7 @@ export function PublishPanel({
     await loadValidation()
 
     if (isDemoActive() && isDemoProjectId(projectId)) {
-      const demoUrl = `https://demo.runlabs42.app/${projectId}`
+      const demoUrl = getDemoPreviewUrl(projectId)
       updateDemoProject(projectId, { deployedUrl: demoUrl })
       onDeployed(demoUrl)
       setDeployStatus('ready')
@@ -214,7 +215,7 @@ export function PublishPanel({
     try {
       if (isDemoActive() && isDemoProjectId(projectId)) {
         const files = await fetchDemoProjectFiles(projectId)
-        const url = deployedUrl ?? `https://demo.runlabs42.app/${projectId}`
+        const url = deployedUrl ?? getDemoPreviewUrl(projectId)
         const readiness = await runMobileReadinessScan({ deployedUrl: url, files })
         updateDemoProject(projectId, { mobileReadiness: readiness })
         onReadinessChange(readiness)
