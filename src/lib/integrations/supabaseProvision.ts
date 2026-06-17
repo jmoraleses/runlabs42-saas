@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto'
 import { readFileSync } from 'fs'
 import { join } from 'path'
-import { SUPABASE_PROJECT_REF } from '@/lib/supabase/project'
+import { getSupabaseProjectRef } from '@/lib/supabase/project'
 import { extractSupabaseProjectRef, validateUserSupabase } from './userSupabase'
 
 const MANAGEMENT_API = 'https://api.supabase.com/v1'
@@ -147,7 +147,12 @@ function provisionPlatformProject(): ProvisionedSupabase {
     )
   }
 
-  const projectRef = extractSupabaseProjectRef(url) ?? SUPABASE_PROJECT_REF
+  const projectRef = extractSupabaseProjectRef(url) ?? getSupabaseProjectRef()
+  if (!projectRef) {
+    throw new Error(
+      'NEXT_PUBLIC_SUPABASE_URL debe ser una URL válida de Supabase (*.supabase.co) en modo plataforma.',
+    )
+  }
   return { projectRef, url, anonKey, serviceRoleKey, mode: 'platform' }
 }
 

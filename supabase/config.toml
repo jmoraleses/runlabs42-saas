@@ -1,5 +1,5 @@
-# Runlabs42 — Supabase CLI (npx supabase link --project-ref uqawltpguhjnkioqeqsh)
-project_id = "uqawltpguhjnkioqeqsh"
+# Supabase local — tras `supabase link`, el CLI actualiza project_id en tu máquina.
+project_id = "runlabs42-local"
 
 [api]
 enabled = true

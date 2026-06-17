@@ -1,3 +1,5 @@
+import { getSupabaseOAuthCallback, SUPABASE_OAUTH_CALLBACK } from '@/lib/supabase/project'
+
 type AuthErrorLike =
   | string
   | null
@@ -61,7 +63,7 @@ export function formatAuthError(
       'Revisa en Supabase → Authentication → Providers → Google que el Client ID y Client Secret ' +
       'coincidan con Google Cloud Console (sin espacios al pegar). ' +
       'En Google Cloud, la única URI de redirección autorizada debe ser: ' +
-      'https://uqawltpguhjnkioqeqsh.supabase.co/auth/v1/callback'
+      `${getSupabaseOAuthCallback() || 'https://TU-PROJECT-REF.supabase.co/auth/v1/callback'}`
     )
   }
 
@@ -103,4 +105,4 @@ export function getSupabaseOAuthCallbackUrl(): string | null {
   return `${url.replace(/\/$/, '')}/auth/v1/callback`
 }
 
-export { SUPABASE_OAUTH_CALLBACK } from '@/lib/supabase/project'
+export { getSupabaseOAuthCallback, SUPABASE_OAUTH_CALLBACK }

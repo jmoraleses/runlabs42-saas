@@ -8,7 +8,10 @@ import { resolve } from 'path'
 
 config({ path: resolve(process.cwd(), '.env.local') })
 
-const SUPABASE_CALLBACK = 'https://uqawltpguhjnkioqeqsh.supabase.co/auth/v1/callback'
+const supabaseUrl = (process.env.NEXT_PUBLIC_SUPABASE_URL || '').replace(/\/$/, '')
+const SUPABASE_CALLBACK = supabaseUrl
+  ? `${supabaseUrl}/auth/v1/callback`
+  : 'https://YOUR-PROJECT-REF.supabase.co/auth/v1/callback'
 const APP_URL = (process.env.NEXT_PUBLIC_APP_URL || '').replace(/\/$/, '')
 
 console.log('\n=== OAuth Runlabs42 — checklist ===\n')
@@ -40,5 +43,5 @@ if (gemini.startsWith('GOCSPX-')) {
 
 console.log('Supabase Google provider:')
 console.log(
-  '  https://supabase.com/dashboard/project/uqawltpguhjnkioqeqsh/auth/providers\n',
+  '  https://supabase.com/dashboard/project/TU-PROJECT-REF/auth/providers\n',
 )

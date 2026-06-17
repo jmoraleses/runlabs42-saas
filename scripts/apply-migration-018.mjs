@@ -24,7 +24,7 @@ if (!url || url.length < 20) {
   console.error(
     'Falta POSTGRES_URL. Opciones:\n' +
       '  1) Supabase Dashboard → SQL → pegar supabase/migrations/018_chat_memory.sql\n' +
-      '  2) npx supabase login && npx supabase link --project-ref uqawltpguhjnkioqeqsh && npx supabase db push\n' +
+      '  2) npx supabase login && npx supabase link --project-ref TU-PROJECT-REF && npx supabase db push\n' +
       '  3) Añadir POSTGRES_URL_NON_POOLING a .env.local y ejecutar: npm run db:apply-018',
   )
   process.exit(1)

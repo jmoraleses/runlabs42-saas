@@ -40,16 +40,26 @@ yarn-error.log*
 !.env.local.example
 !.env.example
 
-# Editor / agentes locales
-.kiro/
+# Documentación local (no subir al repositorio)
+*.md
+
+# Carpetas ocultas locales (solo permitir configuración esencial del proyecto)
+.auth/
 .claude/
 .cursor/
+.data/
+.kiro/
+.pnpm-store/
+.runlabs/
 .specify/
-.vscode/
-.idea/
+.tmp/
+.tmp-docker-config/
+.vercel/
 *.swp
 *.swo
 *~
+.vscode/
+.idea/
 
 # Self-hosted Monaco (generado por scripts/copy-monaco.mjs)
 public/monaco/
